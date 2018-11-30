@@ -54,14 +54,46 @@
 		7921B50021B17C970053A75E /* FootbalFeild */ = {
 			isa = PBXGroup;
 			children = (
-				7921B50121B17C970053A75E /* AppDelegate.swift */,
-				7921B50321B17C970053A75E /* ViewController.swift */,
-				7921B50521B17C970053A75E /* Main.storyboard */,
-				7921B50821B17C990053A75E /* Assets.xcassets */,
-				7921B50A21B17C990053A75E /* LaunchScreen.storyboard */,
-				7921B50D21B17C990053A75E /* Info.plist */,
+				7921B51521B17CCC0053A75E /* SupportFiles */,
+				7921B51621B17CFC0053A75E /* ViewControllers */,
+				7921B51421B17CBE0053A75E /* Storyboard */,
+				7921B51321B17CB00053A75E /* Resources */,
 			);
 			path = FootbalFeild;
+			sourceTree = "<group>";
+		};
+		7921B51321B17CB00053A75E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7921B50821B17C990053A75E /* Assets.xcassets */,
+				7921B50D21B17C990053A75E /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		7921B51421B17CBE0053A75E /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				7921B50521B17C970053A75E /* Main.storyboard */,
+				7921B50A21B17C990053A75E /* LaunchScreen.storyboard */,
+			);
+			path = Storyboard;
+			sourceTree = "<group>";
+		};
+		7921B51521B17CCC0053A75E /* SupportFiles */ = {
+			isa = PBXGroup;
+			children = (
+				7921B50121B17C970053A75E /* AppDelegate.swift */,
+			);
+			path = SupportFiles;
+			sourceTree = "<group>";
+		};
+		7921B51621B17CFC0053A75E /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				7921B50321B17C970053A75E /* ViewController.swift */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -213,7 +245,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -268,7 +300,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -284,7 +316,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MAY262PPKP;
-				INFOPLIST_FILE = FootbalFeild/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/FootbalFeild/Resources/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -302,7 +335,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MAY262PPKP;
-				INFOPLIST_FILE = FootbalFeild/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/FootbalFeild/Resources/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

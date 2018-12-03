@@ -41,6 +41,7 @@ class FootballFieldView: UIView {
                                     y: self.bounds.origin.y + paddingTopAndBottom + self.bounds.height / CGFloat(FootballFieldViewControllerSettings.kStripeCount),
                                     width: fieldWidth,
                                     height: fieldLength)
+        
         drawPathFor(rect: fieldRectangle, in: path)
        
         

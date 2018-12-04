@@ -12,8 +12,12 @@ fileprivate class FootballFieldViewSettings {
     static let kStripeCount = 19
     static let kFieldColor  = #colorLiteral(red: 0.2691331506, green: 0.3710823655, blue: 0.04835906625, alpha: 1)
     
-    static let kPenaltyAreaLengthCoefficient = CGFloat(0.6)
+    static let kPenaltyAreaLengthCoefficient = CGFloat(0.36)
     static let kPenaltyAreaWidthCoefficient  = CGFloat(0.6)
+    
+    static let kGateWidthCoefficient = CGFloat(0.2)
+    static let kGateLength = CGFloat(6)
+    
 }
 
 class FootballFieldView: UIView {
@@ -47,15 +51,17 @@ class FootballFieldView: UIView {
     private var stripeHeight: CGFloat {
         return bounds.height / CGFloat(FootballFieldViewSettings.kStripeCount)
     }
-    private var penaltyAreaWidth: CGFloat {
-        return feildRectangle.width * FootballFieldViewSettings.kPenaltyAreaWidthCoefficient
-    }
-    private var penaltyAreaLength: CGFloat {
-        return penaltyAreaWidth * FootballFieldViewSettings.kPenaltyAreaLengthCoefficient
-    }
+    
     private var penaltyAreaSize: CGSize {
-        return CGSize(width: penaltyAreaWidth, height: penaltyAreaLength)
+        return CGSize(width: feildRectangle.width * FootballFieldViewSettings.kPenaltyAreaWidthCoefficient,
+                      height: feildRectangle.width * FootballFieldViewSettings.kPenaltyAreaLengthCoefficient)
     }
+    
+    private var goalSize: CGSize {
+        return CGSize(width: penaltyAreaSize.width * FootballFieldViewSettings.kGateWidthCoefficient,
+                      height: FootballFieldViewSettings.kGateLength)
+    }
+    
     
     
     // MARK : - Lifecycle methods of FootballFieldView:
@@ -73,6 +79,8 @@ class FootballFieldView: UIView {
         addFieldCornersArcPaths()
         
         addPenaltyAreasPath()
+        
+        addGoalPath()
         
         let topPenaltyCenter = CGPoint(x: feildRectangle.midX, y: feildRectangle.origin.y + feildRectangle.height * 0.1)
         addArcIn(footballFieldLinesPath, center: topPenaltyCenter, radius: feildRectangle.height * 0.1, arcType: .topPenalty)
@@ -107,22 +115,22 @@ class FootballFieldView: UIView {
     }
     
     private func addPenaltyAreasPath() {
-        addPathForTopPenaltyArea()
-        addPathForBottomPenaltyArea()
+        addSymmetricRectPathsWith(rectSize: penaltyAreaSize, isInversed: false)
     }
     
-    private func addPathForTopPenaltyArea() {
-        let topPenaltyAreaTopLeftCorner = CGPoint(x: feildRectangle.origin.x + (feildRectangle.width - penaltyAreaWidth) / 2,
-                                                  y: feildRectangle.origin.y)
-        let topPenaltyAreaFrame = CGRect(origin: topPenaltyAreaTopLeftCorner, size: penaltyAreaSize)
-        addPathIn(footballFieldLinesPath, for: topPenaltyAreaFrame)
+    private func addGoalPath() {
+       addSymmetricRectPathsWith(rectSize: goalSize, isInversed: true)
     }
     
-    private func addPathForBottomPenaltyArea() {
-        let bottomPenaltyAreaTopLeftCorner = CGPoint(x: feildRectangle.origin.x + (feildRectangle.width - penaltyAreaWidth) / 2,
-                                                     y: feildRectangle.maxY - penaltyAreaLength)
-        let bottomPenaltyAreaFrame = CGRect(origin: bottomPenaltyAreaTopLeftCorner, size: penaltyAreaSize)
-        addPathIn(footballFieldLinesPath, for: bottomPenaltyAreaFrame)
+    
+    private func addSymmetricRectPathsWith(rectSize: CGSize, isInversed: Bool) {
+        let rectFrameX = feildRectangle.origin.x + (feildRectangle.width - rectSize.width) / 2
+        
+        let topRectFrameY = feildRectangle.origin.y - (isInversed ? rectSize.height : 0)
+        addPathForRectWith(x: rectFrameX, y: topRectFrameY, size: rectSize)
+        
+        let bottomRectFrameY = feildRectangle.maxY - (isInversed ? 0 : rectSize.height)
+        addPathForRectWith(x: rectFrameX, y: bottomRectFrameY, size: rectSize)
     }
     
     private func addFieldCornersArcPaths() {
@@ -142,6 +150,10 @@ class FootballFieldView: UIView {
         addSingleLineIn(path, from: frame.topRightCorner,    to: frame.bottomRightCorner)
         addSingleLineIn(path, from: frame.bottomRightCorner, to: frame.bottomLeftCorner)
         addSingleLineIn(path, from: frame.bottomLeftCorner,  to: frame.topLeftCorner)
+    }
+    
+    private func addPathForRectWith(x: CGFloat, y: CGFloat, size: CGSize) {
+        addPathIn(footballFieldLinesPath, for: CGRect(origin: CGPoint(x: x, y: y), size: size))
     }
     
     private func addCircleIn(_ path: UIBezierPath, center: CGPoint, radius: CGFloat) {

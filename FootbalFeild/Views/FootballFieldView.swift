@@ -15,8 +15,11 @@ fileprivate class FootballFieldViewSettings {
     static let kPenaltyAreaLengthCoefficient = CGFloat(0.36)
     static let kPenaltyAreaWidthCoefficient  = CGFloat(0.6)
     
-    static let kGateWidthCoefficient = CGFloat(0.2)
-    static let kGateLength = CGFloat(6)
+    static let kGoalWidthCoefficient = CGFloat(0.2)
+    static let kGoalLength           = CGFloat(6)
+    
+    static let kGoalAreaWidthCoefficient  = CGFloat(0.3)
+    static let kGoalAreaLengthCoefficient = CGFloat(0.3)
     
 }
 
@@ -58,10 +61,14 @@ class FootballFieldView: UIView {
     }
     
     private var goalSize: CGSize {
-        return CGSize(width: penaltyAreaSize.width * FootballFieldViewSettings.kGateWidthCoefficient,
-                      height: FootballFieldViewSettings.kGateLength)
+        return CGSize(width: penaltyAreaSize.width * FootballFieldViewSettings.kGoalWidthCoefficient,
+                      height: FootballFieldViewSettings.kGoalLength)
     }
     
+    private var goalAreaSize: CGSize {
+        return CGSize(width: feildRectangle.width * FootballFieldViewSettings.kGoalAreaWidthCoefficient,
+                      height: penaltyAreaSize.height * FootballFieldViewSettings.kGoalAreaLengthCoefficient)
+    }
     
     
     // MARK : - Lifecycle methods of FootballFieldView:
@@ -81,6 +88,8 @@ class FootballFieldView: UIView {
         addPenaltyAreasPath()
         
         addGoalPath()
+        
+        addGoalAreaPath()
         
         let topPenaltyCenter = CGPoint(x: feildRectangle.midX, y: feildRectangle.origin.y + feildRectangle.height * 0.1)
         addArcIn(footballFieldLinesPath, center: topPenaltyCenter, radius: feildRectangle.height * 0.1, arcType: .topPenalty)
@@ -120,6 +129,10 @@ class FootballFieldView: UIView {
     
     private func addGoalPath() {
        addSymmetricRectPathsWith(rectSize: goalSize, isInversed: true)
+    }
+    
+    private func addGoalAreaPath() {
+        addSymmetricRectPathsWith(rectSize: goalAreaSize, isInversed: false)
     }
     
     

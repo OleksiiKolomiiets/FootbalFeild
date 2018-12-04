@@ -17,50 +17,31 @@ enum ArcType {
     case bottomPenalty
     
     var arcStartXCorrecion: CGFloat {
-        switch self {
-        case .topLeftCorner, .bottomLeftCorner:
-            return 1.0
-        case .topRightCorner, .bottomRightCorner:
-            return -1.0
-        case .topPenalty, .bottomPenalty:
-            return 0
-        }
+        return cos(startAngle)
     }
     
     var arcStartYCorrection: CGFloat {
-        switch self {
-        case .topPenalty:
-            return 1.0
-        case .bottomPenalty:
-            return -1.0
-        default:
-            return 0
-        }
+        return sin(startAngle)
     }
     
     var endAngle: CGFloat {
-        switch self {
-        case .topPenalty, .bottomPenalty:
-            return self.startAngle + 0.5 * .pi
-        default:
-            return self.startAngle +  0.5 * .pi
-        }
+        return startAngle - 0.5 * .pi
     }
     
     var startAngle: CGFloat {
         switch self {
         case .topLeftCorner:
-            return 0
-        case .topRightCorner:
             return 0.5 * .pi
-        case .bottomRightCorner:
+        case .topRightCorner:
             return .pi
-        case .bottomLeftCorner:
+        case .bottomRightCorner:
             return 1.5 * .pi
+        case .bottomLeftCorner:
+            return 0
         case .topPenalty:
-            return 0.25 * .pi
+            return 0.75 * .pi
         case .bottomPenalty:
-            return 1.25 * .pi
+            return 1.75 * .pi
         }
     }
 }

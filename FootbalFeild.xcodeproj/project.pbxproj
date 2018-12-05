@@ -15,6 +15,8 @@
 		7921B51A21B55EED0053A75E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7921B51921B55EED0053A75E /* Extensions.swift */; };
 		7921B51D21B56DCA0053A75E /* FootballFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7921B51C21B56DCA0053A75E /* FootballFieldView.swift */; };
 		7921B51F21B580D30053A75E /* ArcType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7921B51E21B580D30053A75E /* ArcType.swift */; };
+		796C38C821B6DFB60075D84B /* PlayerCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796C38C721B6DFB60075D84B /* PlayerCircleView.swift */; };
+		796C38CA21B6DFC20075D84B /* PlayerCircleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 796C38C921B6DFC20075D84B /* PlayerCircleView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		7921B51921B55EED0053A75E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		7921B51C21B56DCA0053A75E /* FootballFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootballFieldView.swift; sourceTree = "<group>"; };
 		7921B51E21B580D30053A75E /* ArcType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArcType.swift; sourceTree = "<group>"; };
+		796C38C721B6DFB60075D84B /* PlayerCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCircleView.swift; sourceTree = "<group>"; };
+		796C38C921B6DFC20075D84B /* PlayerCircleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerCircleView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +121,8 @@
 			isa = PBXGroup;
 			children = (
 				7921B51C21B56DCA0053A75E /* FootballFieldView.swift */,
+				796C38C721B6DFB60075D84B /* PlayerCircleView.swift */,
+				796C38C921B6DFC20075D84B /* PlayerCircleView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -190,6 +196,7 @@
 				7921B50C21B17C990053A75E /* LaunchScreen.storyboard in Resources */,
 				7921B50921B17C990053A75E /* Assets.xcassets in Resources */,
 				7921B50721B17C970053A75E /* FootballField.storyboard in Resources */,
+				796C38CA21B6DFC20075D84B /* PlayerCircleView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,6 +210,7 @@
 				7921B51D21B56DCA0053A75E /* FootballFieldView.swift in Sources */,
 				7921B51821B189440053A75E /* FootballFieldViewController.swift in Sources */,
 				7921B51A21B55EED0053A75E /* Extensions.swift in Sources */,
+				796C38C821B6DFB60075D84B /* PlayerCircleView.swift in Sources */,
 				7921B51F21B580D30053A75E /* ArcType.swift in Sources */,
 				7921B50221B17C970053A75E /* AppDelegate.swift in Sources */,
 			);

@@ -31,9 +31,10 @@ class FootballFieldView: UIView {
     
     // MARK: Constatnts:
     
-    private let paddingTopAndBottom: CGFloat = 8
-    private let paddingLeftAndRight: CGFloat = 32
+    private let paddingTopAndBottom: CGFloat = 10
+    private let paddingLeftAndRight: CGFloat = 2
     private let cornerArcsRadius   : CGFloat = 15
+    private let lineWidth: CGFloat = 4
     private let footballFieldLinesPath = UIBezierPath()
     
     // MARK: Variables:
@@ -42,14 +43,20 @@ class FootballFieldView: UIView {
         return bounds.width - CGFloat(2) * paddingLeftAndRight
     }
     private var fieldLength: CGFloat {
-        return bounds.height - CGFloat(2) * (paddingTopAndBottom + bounds.height / CGFloat(FootballFieldViewSettings.kStripeCount))
+        return bounds.height - CGFloat(2) * paddingTopAndBottom 
     }
     private var centrRadius: CGFloat  {
         return fieldWidth * CGFloat(0.15)
     }
     private var feildRectangle: CGRect {
         return CGRect(x: bounds.origin.x + paddingLeftAndRight,
-                      y: bounds.origin.y + paddingTopAndBottom + bounds.height / CGFloat(FootballFieldViewSettings.kStripeCount),
+                      y: bounds.origin.y + paddingTopAndBottom,
+                      width: fieldWidth,
+                      height: fieldLength)
+    }
+    public var feildFrame: CGRect {
+        return CGRect(x: frame.origin.x + paddingLeftAndRight,
+                      y: frame.origin.y + paddingTopAndBottom,
                       width: fieldWidth,
                       height: fieldLength)
     }
@@ -128,14 +135,15 @@ class FootballFieldView: UIView {
     }
     
     private func addPenaltyArcPath() {
-        let topPenaltyCenterPoint = CGPoint(x: feildRectangle.midX, y: feildRectangle.origin.y + penaltyCenterLength)        
+        let topPenaltyCenterPoint = CGPoint(x: feildRectangle.midX, y: feildRectangle.origin.y + penaltyCenterLength)
         let topPenaltyArcStartPoint = getPenaltyArcStartPoint(with: feildRectangle.origin.y + penaltyAreaSize.height)
         addArcIn(footballFieldLinesPath,
                  center: topPenaltyCenterPoint,
                  radius: topPenaltyCenterPoint.distance(from: topPenaltyArcStartPoint),
                  arcType: .topPenalty)
         
-        let bottomPenaltyCenterPoint = CGPoint(x: feildRectangle.midX, y: feildRectangle.maxY - penaltyCenterLength)
+        let arcShift = cos(0.25 * .pi) * lineWidth
+        let bottomPenaltyCenterPoint = CGPoint(x: feildRectangle.midX, y: feildRectangle.maxY - penaltyCenterLength - arcShift)
         let bottomPenaltyArcStartPoint = getPenaltyArcStartPoint(with: feildRectangle.maxY - penaltyAreaSize.height)
         addArcIn(footballFieldLinesPath,
                  center: bottomPenaltyCenterPoint,
@@ -170,10 +178,12 @@ class FootballFieldView: UIView {
     }
     
     private func addPathIn(_ path: UIBezierPath, for frame: CGRect) {
-        addSingleLineIn(path, from: frame.topLeftCorner,     to: frame.topRightCorner)
-        addSingleLineIn(path, from: frame.topRightCorner,    to: frame.bottomRightCorner)
-        addSingleLineIn(path, from: frame.bottomRightCorner, to: frame.bottomLeftCorner)
-        addSingleLineIn(path, from: frame.bottomLeftCorner,  to: frame.topLeftCorner)
+        path.move(to: frame.topLeftCorner)
+        path.addLine(to: frame.topRightCorner)
+        path.addLine(to: frame.bottomRightCorner)
+        path.addLine(to: frame.bottomLeftCorner)
+        path.addLine(to: frame.topLeftCorner)
+        path.close()
     }
     
     private func addPathForRectWith(x: CGFloat, y: CGFloat, size: CGSize) {
@@ -189,6 +199,7 @@ class FootballFieldView: UIView {
     private func addArcIn(_ path: UIBezierPath, center: CGPoint, radius: CGFloat, arcType: ArcType) {
         path.move(to: CGPoint(x: center.x + radius * arcType.arcStartXCorrecion,
                               y: center.y + radius * arcType.arcStartYCorrection))
+        
         path.addArc(withCenter: center, radius: radius, startAngle: arcType.startAngle, endAngle: arcType.endAngle, clockwise: false)
         
     }
@@ -196,7 +207,6 @@ class FootballFieldView: UIView {
     private func addSingleLineIn(_ path: UIBezierPath, from start: CGPoint, to end: CGPoint) {
         path.move(to: start)
         path.addLine(to: end)
-        path.close()
     }
     
     private func addFootballFieldPattern() {
@@ -248,7 +258,7 @@ class FootballFieldView: UIView {
         shapeLayer.strokeColor = UIColor.white.withAlphaComponent(0.4).cgColor
         shapeLayer.fillRule = .evenOdd
         shapeLayer.fillColor = UIColor.clear.cgColor
-        shapeLayer.lineWidth = 3
+        shapeLayer.lineWidth = lineWidth
         
         self.layer.addSublayer(shapeLayer)
     }

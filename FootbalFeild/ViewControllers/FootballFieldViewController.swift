@@ -126,14 +126,10 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func cancelNumberPad() {
-        firstTeamSchemeInputTextField.text = ""
-        secondTeamSchemeNameInputTextField.text = ""
-        
         dismiss(activeTextField)
     }
     
-    @objc func doneWithNumberPad() {
-        
+    @objc func doneWithNumberPad() {        
         changeSchemeAccordingTo(inputtedText: activeTextField.text, atThe: editingTeameSide)
         
         dismiss(activeTextField)
@@ -190,6 +186,10 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func dismiss(_ textField: UITextField) {
+        
+        firstTeamSchemeInputTextField.text = ""
+        secondTeamSchemeNameInputTextField.text = ""
+        
         textField.resignFirstResponder()
         
         hideTextField(textField, animated: true)

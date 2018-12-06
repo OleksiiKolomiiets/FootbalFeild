@@ -35,6 +35,7 @@ class FootballFieldView: UIView {
     private let cornerArcsRadius   : CGFloat = 15
     private let lineWidth: CGFloat = 3
     private let footballFieldLinesPath = UIBezierPath()
+    private let penaltyArcAngle: CGFloat = 0.25 * .pi
     
     // MARK: Variables:
     
@@ -79,6 +80,10 @@ class FootballFieldView: UIView {
     private var goalAreaSize: CGSize {
         return CGSize(width: feildRectangle.width * FootballFieldViewSettings.kGoalAreaWidthCoefficient,
                       height: penaltyAreaSize.height * FootballFieldViewSettings.kGoalAreaLengthCoefficient)
+    }
+    
+    private var penaltyArcRadius: CGFloat {
+        return (goalAreaSize.width / 2) / cos(penaltyArcAngle)
     }
     
     private var penaltyArcStartX: CGFloat {
@@ -137,20 +142,29 @@ class FootballFieldView: UIView {
     }
     
     private func addPenaltyArcPath() {
-        let topPenaltyCenterPoint = CGPoint(x: feildRectangle.midX, y: feildRectangle.origin.y + penaltyCenterLength)
+        
         let topPenaltyArcStartPoint = getPenaltyArcStartPoint(with: feildRectangle.origin.y + penaltyAreaSize.height)
+        let topPenaltyCenterPoint = getPenaltyCenterPoint(accordingToArcStart: topPenaltyArcStartPoint)
+        
         addArcIn(footballFieldLinesPath,
                  center: topPenaltyCenterPoint,
-                 radius: topPenaltyCenterPoint.distance(from: topPenaltyArcStartPoint),
+                 radius: penaltyArcRadius,
                  arcType: .topPenalty)
         
-        let arcShift = cos(0.25 * .pi) * lineWidth
-        let bottomPenaltyCenterPoint = CGPoint(x: feildRectangle.midX, y: feildRectangle.maxY - penaltyCenterLength - arcShift)
         let bottomPenaltyArcStartPoint = getPenaltyArcStartPoint(with: feildRectangle.maxY - penaltyAreaSize.height)
+        let bottomPenaltyCenterPoint = getPenaltyCenterPoint(accordingToArcStart: bottomPenaltyArcStartPoint)
         addArcIn(footballFieldLinesPath,
                  center: bottomPenaltyCenterPoint,
-                 radius: bottomPenaltyCenterPoint.distance(from: bottomPenaltyArcStartPoint),
+                 radius: penaltyArcRadius ,
                  arcType: .bottomPenalty)
+    }
+    
+    private func getPenaltyCenterPoint(accordingToArcStart point: CGPoint) -> CGPoint {
+        let sideIndicator: CGFloat = point.y < bounds.midY ? -1 : 1
+        let xShift: CGFloat = goalAreaSize.width / 2
+        let yShift = sqrt(penaltyArcRadius * penaltyArcRadius - xShift * xShift)
+        
+        return CGPoint(x: point.x + xShift, y: point.y + sideIndicator * yShift)
     }
     
     private func getPenaltyArcStartPoint(with startX: CGFloat) -> CGPoint {

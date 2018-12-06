@@ -23,12 +23,11 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <textField hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QEN-dG-CH1">
-                                <rect key="frame" x="234" y="28" width="70" height="20"/>
+                                <rect key="frame" x="249" y="28" width="55" height="20"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="COV-bX-b4m"/>
-                                    <constraint firstAttribute="width" constant="70" id="Vdz-2X-e6c"/>
                                 </constraints>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -38,7 +37,7 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QA2-Q1-Sxt">
-                                <rect key="frame" x="234" y="28" width="70" height="20"/>
+                                <rect key="frame" x="249" y="28" width="55" height="20"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
@@ -46,7 +45,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JP4-Di-EPa">
-                                <rect key="frame" x="234" y="540" width="70" height="20"/>
+                                <rect key="frame" x="249" y="540" width="55" height="20"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
@@ -54,12 +53,12 @@
                                 </connections>
                             </button>
                             <textField hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RgV-DG-BJh">
-                                <rect key="frame" x="234" y="540" width="70" height="20"/>
+                                <rect key="frame" x="249" y="540" width="55" height="20"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="3V9-5N-ruc"/>
-                                    <constraint firstAttribute="width" constant="70" id="An5-6R-YhW"/>
+                                    <constraint firstAttribute="width" constant="55" id="An5-6R-YhW"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad" keyboardAppearance="alert" textContentType="cc-number"/>
@@ -70,6 +69,7 @@
                         </subviews>
                         <color key="backgroundColor" red="0.26913315059999998" green="0.37108236550000001" blue="0.048359066249999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="QEN-dG-CH1" firstAttribute="width" secondItem="RgV-DG-BJh" secondAttribute="width" id="4GS-V3-590"/>
                             <constraint firstItem="QA2-Q1-Sxt" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="234" id="7OU-QH-dwU"/>
                             <constraint firstItem="6xg-dB-yTJ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="44" id="CPB-Fa-03D"/>
                             <constraint firstAttribute="trailing" secondItem="6xg-dB-yTJ" secondAttribute="trailing" constant="16" id="FGC-lF-xxw"/>

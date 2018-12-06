@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina5_5" orientation="portrait">
+    <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -15,29 +15,95 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="FootballFieldViewController" customModule="FootbalFeild" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6xg-dB-yTJ" customClass="FootballFieldView" customModule="FootbalFeild" customModuleProvider="target">
-                                <rect key="frame" x="8" y="50" width="398" height="616"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <rect key="frame" x="16" y="64" width="288" height="460"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
+                            <textField hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QEN-dG-CH1">
+                                <rect key="frame" x="234" y="28" width="70" height="20"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="COV-bX-b4m"/>
+                                    <constraint firstAttribute="width" constant="70" id="Vdz-2X-e6c"/>
+                                </constraints>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad" keyboardAppearance="alert"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="Heh-Yp-Dxj"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QA2-Q1-Sxt">
+                                <rect key="frame" x="234" y="28" width="70" height="20"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="schemeButtonTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zhO-Q2-41t"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JP4-Di-EPa">
+                                <rect key="frame" x="234" y="540" width="70" height="20"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="schemeButtonTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1al-sQ-mCc"/>
+                                </connections>
+                            </button>
+                            <textField hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RgV-DG-BJh">
+                                <rect key="frame" x="234" y="540" width="70" height="20"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="3V9-5N-ruc"/>
+                                    <constraint firstAttribute="width" constant="70" id="An5-6R-YhW"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad" keyboardAppearance="alert" textContentType="cc-number"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="Wp1-kR-0G3"/>
+                                </connections>
+                            </textField>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.26913315059999998" green="0.37108236550000001" blue="0.048359066249999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="6xg-dB-yTJ" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="50" id="CPB-Fa-03D"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6xg-dB-yTJ" secondAttribute="trailing" constant="8" id="FGC-lF-xxw"/>
-                            <constraint firstItem="6xg-dB-yTJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="TqM-Gp-wVU"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="6xg-dB-yTJ" secondAttribute="bottom" constant="70" id="hCn-Ss-7ru"/>
+                            <constraint firstItem="QA2-Q1-Sxt" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="234" id="7OU-QH-dwU"/>
+                            <constraint firstItem="6xg-dB-yTJ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="44" id="CPB-Fa-03D"/>
+                            <constraint firstAttribute="trailing" secondItem="6xg-dB-yTJ" secondAttribute="trailing" constant="16" id="FGC-lF-xxw"/>
+                            <constraint firstItem="QA2-Q1-Sxt" firstAttribute="top" secondItem="QEN-dG-CH1" secondAttribute="top" id="Hxf-lb-aY8"/>
+                            <constraint firstItem="QA2-Q1-Sxt" firstAttribute="width" secondItem="QEN-dG-CH1" secondAttribute="width" id="IcL-ky-OL6"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="RgV-DG-BJh" secondAttribute="bottom" constant="8" id="LFD-XB-QZy"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="RgV-DG-BJh" secondAttribute="trailing" constant="16" id="MDt-rx-3wh"/>
+                            <constraint firstItem="RgV-DG-BJh" firstAttribute="bottom" secondItem="JP4-Di-EPa" secondAttribute="bottom" id="Ncs-r0-r27"/>
+                            <constraint firstItem="JP4-Di-EPa" firstAttribute="width" secondItem="RgV-DG-BJh" secondAttribute="width" id="OdB-2Z-0uF"/>
+                            <constraint firstItem="QA2-Q1-Sxt" firstAttribute="trailing" secondItem="QEN-dG-CH1" secondAttribute="trailing" id="TGY-IW-FHj"/>
+                            <constraint firstItem="6xg-dB-yTJ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="TqM-Gp-wVU"/>
+                            <constraint firstItem="QEN-dG-CH1" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="8" id="VAC-8c-dMb"/>
+                            <constraint firstItem="RgV-DG-BJh" firstAttribute="trailing" secondItem="JP4-Di-EPa" secondAttribute="trailing" id="YMg-IQ-OjY"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="QEN-dG-CH1" secondAttribute="trailing" constant="16" id="bHz-t3-X52"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="6xg-dB-yTJ" secondAttribute="bottom" constant="44" id="hCn-Ss-7ru"/>
+                            <constraint firstItem="JP4-Di-EPa" firstAttribute="height" secondItem="RgV-DG-BJh" secondAttribute="height" id="kmO-KG-TG9"/>
+                            <constraint firstItem="RgV-DG-BJh" firstAttribute="leading" secondItem="JP4-Di-EPa" secondAttribute="leading" id="obD-9d-8M8"/>
+                            <constraint firstItem="RgV-DG-BJh" firstAttribute="top" secondItem="JP4-Di-EPa" secondAttribute="top" id="wMh-rB-HpI"/>
+                            <constraint firstItem="QA2-Q1-Sxt" firstAttribute="height" secondItem="QEN-dG-CH1" secondAttribute="height" id="xbT-ac-jth"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="firstTeamSchemeButton" destination="QA2-Q1-Sxt" id="QSW-ii-5ta"/>
+                        <outlet property="firstTeamSchemeInputTextField" destination="QEN-dG-CH1" id="CiH-dP-rk1"/>
                         <outlet property="footballFieldView" destination="6xg-dB-yTJ" id="t68-fb-93o"/>
+                        <outlet property="secondTeamSchemeButton" destination="JP4-Di-EPa" id="HcX-XT-FUb"/>
+                        <outlet property="secondTeamSchemeNameInputBottomConstraint" destination="LFD-XB-QZy" id="A82-hm-8CL"/>
+                        <outlet property="secondTeamSchemeNameInputTextField" destination="RgV-DG-BJh" id="ZRR-tE-xqp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="37.5" y="38.028169014084504"/>
         </scene>
     </scenes>
 </document>

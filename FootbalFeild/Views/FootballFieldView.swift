@@ -12,8 +12,8 @@ fileprivate class FootballFieldViewSettings {
     static let kStripeCount = 19
     static let kFieldColor  = #colorLiteral(red: 0.2691331506, green: 0.3710823655, blue: 0.04835906625, alpha: 1)
     
-    static let kPenaltyAreaLengthCoefficient = CGFloat(0.36)
-    static let kPenaltyAreaWidthCoefficient  = CGFloat(0.6)
+    static let kPenaltyAreaLengthCoefficient = CGFloat(0.3)
+    static let kPenaltyAreaWidthCoefficient  = CGFloat(0.5)
     
     static let kGoalWidthCoefficient = CGFloat(0.2)
     static let kGoalLength           = CGFloat(6)
@@ -31,24 +31,26 @@ class FootballFieldView: UIView {
     
     // MARK: Constatnts:
     
-    private let paddingTopAndBottom: CGFloat = 10
-    private let paddingLeftAndRight: CGFloat = 2
+    private let paddingTopAndBottom: CGFloat = 0
     private let cornerArcsRadius   : CGFloat = 15
-    private let lineWidth: CGFloat = 4
+    private let lineWidth: CGFloat = 3
     private let footballFieldLinesPath = UIBezierPath()
     
     // MARK: Variables:
     
+    private var paddingLeftAndRight: CGFloat {
+        return lineWidth / 2
+    }
     private var fieldWidth: CGFloat {
         return bounds.width - CGFloat(2) * paddingLeftAndRight
     }
     private var fieldLength: CGFloat {
-        return bounds.height - CGFloat(2) * paddingTopAndBottom 
+        return bounds.height - CGFloat(2) * paddingTopAndBottom
     }
     private var centrRadius: CGFloat  {
         return fieldWidth * CGFloat(0.15)
     }
-    private var feildRectangle: CGRect {
+    public var feildRectangle: CGRect {
         return CGRect(x: bounds.origin.x + paddingLeftAndRight,
                       y: bounds.origin.y + paddingTopAndBottom,
                       width: fieldWidth,

@@ -12,7 +12,7 @@ fileprivate class FootballFieldViewSettings {
     static let kStripeCount = 19
     static let kFieldColor  = #colorLiteral(red: 0.2691331506, green: 0.3710823655, blue: 0.04835906625, alpha: 1)
     
-    static let kPenaltyAreaLengthCoefficient = CGFloat(0.3)
+    static let kPenaltyAreaLengthCoefficient = CGFloat(0.2)
     static let kPenaltyAreaWidthCoefficient  = CGFloat(0.5)
     
     static let kGoalWidthCoefficient = CGFloat(0.2)

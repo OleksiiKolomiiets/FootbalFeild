@@ -8,37 +8,45 @@
 
 import UIKit
 
-fileprivate enum TeamSchemeType {
-    case s4411
-    case s433
-    
-    init?(pattern: String) {
-        switch pattern {
-        case "433":
-            self = .s433
-        case "4411":
-            self = .s4411
-        default:
-            return nil
-        }
-    }
+fileprivate enum TeamSchemeType: String {
+    case s442   = "442"
+    case s433   = "433"
+    case s451   = "451"
+    case s343   = "343"
+    case s352   = "352"
+    case s4231  = "4231"
+    case s1441  = "1441"
+    case s1432  = "1432"
+    case s4222  = "4222"
+    case s42121 = "42121"
+    case s4132  = "4132"
+    case s5221  = "5221"
+    case s4411  = "4411"
     
     var teamMatrix: [[Int]] {
-        switch self {
-        case .s433:
-            return [ [1], [2, 3, 4, 5],  [6, 7, 8],  [9, 10, 11] ]
-        case .s4411:
-            return [ [1], [2, 3, 4, 5], [6, 7, 8, 9], [10], [11] ]
+        let characters = Array(self.rawValue)
+        var playerNumber = 1
+        var teamMatrix = [[playerNumber]]
+        
+        for lineIndex in 0 ..< characters.count {
+            guard let playersInLine = Int(String(characters[lineIndex])) else { break }
+            teamMatrix.append([])
+            for _ in 0 ..< playersInLine {
+                playerNumber += 1
+                teamMatrix[lineIndex + 1].append(playerNumber)
+            }
         }
+        
+        return teamMatrix
     }
     
     var buttonTitle: String {
-        switch self {
-        case .s433:
-            return "4-3-3"
-        case .s4411:
-            return "4-4-1-1"
+        var title = String()
+        for (index, character) in self.rawValue.enumerated() {
+            let separator = (index != self.rawValue.count - 1) ? "-" : ""
+            title.append("\(character)\(separator)")
         }
+        return title
     }
 }
 
@@ -203,7 +211,7 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
     
     private func changeSchemeAccordingTo(inputtedText: String?, atThe: TeamSide) {
         if let text = inputtedText,
-            let shemeType = TeamSchemeType(pattern: text) {
+            let shemeType = TeamSchemeType(rawValue: text) {
             switch atThe {
             case .top:
                 teamAtTheTop.forEach() { $0.removeFromSuperview()}

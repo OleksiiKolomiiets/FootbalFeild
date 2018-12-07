@@ -39,6 +39,8 @@ class FootballFieldView: UIView {
     
     // MARK: Variables:
     
+    private var pathHelper: PathHelperProtocol!
+    
     private var paddingLeftAndRight: CGFloat {
         return lineWidth / 2
     }
@@ -98,6 +100,10 @@ class FootballFieldView: UIView {
     // MARK : - Lifecycle methods of FootballFieldView:
     
     override func draw(_ rect: CGRect) {
+        
+        pathHelper = PathHelper()
+        pathHelper.path = footballFieldLinesPath
+        
         addFootballFieldPattern()
         addLinesPath()
         setupLayerWith(footballFieldLinesPath)        
@@ -119,14 +125,15 @@ class FootballFieldView: UIView {
     }
     
     private func addFieldPath() {
-        addPathIn(footballFieldLinesPath, for: feildRectangle)
+        pathHelper.add(RectLine(rect: feildRectangle))
     }
     
     private func addFieldCenterLinePath() {
         let startPoint = CGPoint(x: bounds.origin.x + paddingLeftAndRight, y: bounds.midY)
         let endPoint = CGPoint(x: bounds.width - paddingLeftAndRight, y: bounds.midY)
+        let singleLine = SingleLine(start: startPoint, end: endPoint)
         
-        addSingleLineIn(footballFieldLinesPath, from: startPoint, to: endPoint)
+        pathHelper.add(singleLine)
     }
     
     private func addPenaltyAreasPath() {
@@ -141,22 +148,21 @@ class FootballFieldView: UIView {
         addSymmetricRectPathsWith(rectSize: goalAreaSize, isInversed: false)
     }
     
+    private func addFieldCenterCirclePath() {
+        let centerCircleArcLine = ArcLine(center: CGPoint(x: bounds.midX, y: bounds.midY), radius: centrRadius, type: .circle)
+        pathHelper.add(centerCircleArcLine)
+    }
+
     private func addPenaltyArcPath() {
-        
         let topPenaltyArcStartPoint = getPenaltyArcStartPoint(with: feildRectangle.origin.y + penaltyAreaSize.height)
         let topPenaltyCenterPoint = getPenaltyCenterPoint(accordingToArcStart: topPenaltyArcStartPoint)
-        
-        addArcIn(footballFieldLinesPath,
-                 center: topPenaltyCenterPoint,
-                 radius: penaltyArcRadius,
-                 arcType: .topPenalty)
+        let topPenaltyArc = ArcLine(center: topPenaltyCenterPoint, radius: penaltyArcRadius, type: .topPenalty)
+        pathHelper.add(topPenaltyArc)
         
         let bottomPenaltyArcStartPoint = getPenaltyArcStartPoint(with: feildRectangle.maxY - penaltyAreaSize.height)
         let bottomPenaltyCenterPoint = getPenaltyCenterPoint(accordingToArcStart: bottomPenaltyArcStartPoint)
-        addArcIn(footballFieldLinesPath,
-                 center: bottomPenaltyCenterPoint,
-                 radius: penaltyArcRadius ,
-                 arcType: .bottomPenalty)
+        let bottomPenaltyArc = ArcLine(center: bottomPenaltyCenterPoint, radius: penaltyArcRadius, type: .bottomPenalty)
+        pathHelper.add(bottomPenaltyArc)
     }
     
     private func getPenaltyCenterPoint(accordingToArcStart point: CGPoint) -> CGPoint {
@@ -175,54 +181,28 @@ class FootballFieldView: UIView {
         let rectFrameX = feildRectangle.origin.x + (feildRectangle.width - rectSize.width) / 2
         
         let topRectFrameY = feildRectangle.origin.y - (isInversed ? rectSize.height : 0)
-        addPathForRectWith(x: rectFrameX, y: topRectFrameY, size: rectSize)
+        let topRectPoint = CGPoint(x: rectFrameX, y: topRectFrameY)
+        let topRectLine = RectLine(rect: CGRect(origin: topRectPoint, size: rectSize))
+        pathHelper.add(topRectLine)
         
         let bottomRectFrameY = feildRectangle.maxY - (isInversed ? 0 : rectSize.height)
-        addPathForRectWith(x: rectFrameX, y: bottomRectFrameY, size: rectSize)
+        let bottomRectPoint = CGPoint(x: rectFrameX, y: bottomRectFrameY)
+        let bottomRectLine = RectLine(rect: CGRect(origin: bottomRectPoint, size: rectSize))
+        pathHelper.add(bottomRectLine)
     }
     
     private func addFieldCornersArcPaths() {
-        addArcIn(footballFieldLinesPath, center: feildRectangle.topLeftCorner, radius: cornerArcsRadius, arcType: .topLeftCorner)
-        addArcIn(footballFieldLinesPath, center: feildRectangle.topRightCorner, radius: cornerArcsRadius, arcType: .topRightCorner)
-        addArcIn(footballFieldLinesPath, center: feildRectangle.bottomRightCorner, radius: cornerArcsRadius, arcType: .bottomRightCorner)
-        addArcIn(footballFieldLinesPath, center: feildRectangle.bottomLeftCorner, radius: cornerArcsRadius, arcType: .bottomLeftCorner)
+        let topLeftArc = ArcLine(center: feildRectangle.topLeftCorner, radius: cornerArcsRadius, type: .topLeftCorner)        
+        pathHelper.add(topLeftArc)
         
-    }
-    
-    private func addFieldCenterCirclePath() {
-        addCircleIn(footballFieldLinesPath, center: CGPoint(x: bounds.midX, y: bounds.midY), radius: centrRadius)
-    }
-    
-    private func addPathIn(_ path: UIBezierPath, for frame: CGRect) {
-        path.move(to: frame.topLeftCorner)
-        path.addLine(to: frame.topRightCorner)
-        path.addLine(to: frame.bottomRightCorner)
-        path.addLine(to: frame.bottomLeftCorner)
-        path.addLine(to: frame.topLeftCorner)
-        path.close()
-    }
-    
-    private func addPathForRectWith(x: CGFloat, y: CGFloat, size: CGSize) {
-        addPathIn(footballFieldLinesPath, for: CGRect(origin: CGPoint(x: x, y: y), size: size))
-    }
-    
-    private func addCircleIn(_ path: UIBezierPath, center: CGPoint, radius: CGFloat) {
-        path.move(to: CGPoint(x: center.x + radius, y: center.y))
-        path.addArc(withCenter: center, radius: radius, startAngle: 0, endAngle: 2.0 * .pi, clockwise: true)
-        path.close()
-    }
-    
-    private func addArcIn(_ path: UIBezierPath, center: CGPoint, radius: CGFloat, arcType: ArcType) {
-        path.move(to: CGPoint(x: center.x + radius * arcType.arcStartXCorrecion,
-                              y: center.y + radius * arcType.arcStartYCorrection))
+        let topRightArc = ArcLine(center: feildRectangle.topRightCorner, radius: cornerArcsRadius, type: .topRightCorner)
+        pathHelper.add(topRightArc)
         
-        path.addArc(withCenter: center, radius: radius, startAngle: arcType.startAngle, endAngle: arcType.endAngle, clockwise: false)
+        let bottomRightArc = ArcLine(center: feildRectangle.bottomRightCorner, radius: cornerArcsRadius, type: .bottomRightCorner)
+        pathHelper.add(bottomRightArc)
         
-    }
-    
-    private func addSingleLineIn(_ path: UIBezierPath, from start: CGPoint, to end: CGPoint) {
-        path.move(to: start)
-        path.addLine(to: end)
+        let bottomLeftArc = ArcLine(center: feildRectangle.bottomLeftCorner, radius: cornerArcsRadius, type: .bottomLeftCorner)
+        pathHelper.add(bottomLeftArc)
     }
     
     private func addFootballFieldPattern() {

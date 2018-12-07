@@ -26,8 +26,6 @@ class PlayerCircleView: UIView {
     func commonInit() {
         Bundle.main.loadNibNamed("PlayerCircleView", owner: self, options: nil)
         initSubviews()
-//        playerCircleView.translatesAutoresizingMaskIntoConstraints = false
-//        playerCircleView.fixInView(self)
     }
     
     public func configureWith(playerNumber: Int, teamColor: UIColor) {

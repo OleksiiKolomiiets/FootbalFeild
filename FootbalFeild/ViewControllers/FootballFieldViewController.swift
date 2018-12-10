@@ -8,48 +8,6 @@
 
 import UIKit
 
-fileprivate enum TeamSchemeType: String {
-    case s442   = "442"
-    case s433   = "433"
-    case s451   = "451"
-    case s343   = "343"
-    case s352   = "352"
-    case s4231  = "4231"
-    case s1441  = "1441"
-    case s1432  = "1432"
-    case s4222  = "4222"
-    case s42121 = "42121"
-    case s4132  = "4132"
-    case s5221  = "5221"
-    case s4411  = "4411"
-    
-    var teamMatrix: [[Int]] {
-        let characters = Array(self.rawValue)
-        var playerNumber = 1
-        var teamMatrix = [[playerNumber]]
-        
-        for lineIndex in 0 ..< characters.count {
-            guard let playersInLine = Int(String(characters[lineIndex])) else { break }
-            teamMatrix.append([])
-            for _ in 0 ..< playersInLine {
-                playerNumber += 1
-                teamMatrix[lineIndex + 1].append(playerNumber)
-            }
-        }
-        
-        return teamMatrix
-    }
-    
-    var buttonTitle: String {
-        var title = String()
-        for (index, character) in self.rawValue.enumerated() {
-            let separator = (index != self.rawValue.count - 1) ? "-" : ""
-            title.append("\(character)\(separator)")
-        }
-        return title
-    }
-}
-
 fileprivate enum TeamSide: Int {
     case top
     case bottom
@@ -83,13 +41,12 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet private weak var secondTeamSchemeButton: UIButton!
     @IBOutlet private weak var firstTeamSchemeInputTextField: UITextField!
     @IBOutlet private weak var secondTeamSchemeNameInputTextField: UITextField!
-    
     @IBOutlet weak var secondTeamSchemeNameInputBottomConstraint: NSLayoutConstraint!
+    
     
     // MARK: - Properties:
     
     // MARK: Constants:
-   
     private let maxPlayersInARow = 5
     
     // MARK: Variables:
@@ -99,8 +56,12 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
     
     private(set) var teamAtTheTop    : [PlayerCircleView]!
     private(set) var teamAtTheBottom : [PlayerCircleView]!
+    
     private var activeTextField : UITextField!
     private var editingTeameSide: TeamSide!
+    
+    
+    // MARK: - Actions:
     
     @IBAction func schemeButtonTouched(_ sender: UIButton) {
         sender.isHidden = true
@@ -110,6 +71,18 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
             show(secondTeamSchemeNameInputTextField, animated: true)
         }
     }
+    
+    @objc func cancelNumberPad() {
+        dismiss(activeTextField)
+    }
+    
+    @objc func doneWithNumberPad() {
+        changeSchemeAccordingTo(inputtedText: activeTextField.text, atThe: editingTeameSide)
+        
+        dismiss(activeTextField)
+    }
+    
+    
     // MARK: - Lifecycle of FootballFieldViewController:
     
     override func viewDidLoad() {
@@ -124,8 +97,13 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        teamAtTheTop = getFootballTeamCircleViewsWith(scheme: .s4411, atThe: .top)
-        teamAtTheBottom = getFootballTeamCircleViewsWith(scheme: .s433, atThe: .bottom)
+        let defaultTeam = TeamEntity(by: .s433)
+        
+        teamAtTheTop = getFootballTeamCircleViewsWith(model: defaultTeam, atThe: .top)
+        changeTeamSchemeButtonTitle(for: .top, using: defaultTeam)
+        
+        teamAtTheBottom = getFootballTeamCircleViewsWith(model: defaultTeam, atThe: .bottom)
+        changeTeamSchemeButtonTitle(for: .bottom, using: defaultTeam)
         
         teamAtTheTop.forEach() { self.view.addSubview($0)}
         teamAtTheBottom.forEach() { self.view.addSubview($0)}
@@ -133,32 +111,25 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    @objc func cancelNumberPad() {
-        dismiss(activeTextField)
-    }
-    
-    @objc func doneWithNumberPad() {        
-        changeSchemeAccordingTo(inputtedText: activeTextField.text, atThe: editingTeameSide)
-        
-        dismiss(activeTextField)
-    }
     
     // MARK: - Functions:
     
-    private func getFootballTeamCircleViewsWith(scheme: TeamSchemeType, atThe side: TeamSide) -> [PlayerCircleView] {
-        
+    private func changeTeamSchemeButtonTitle(for side: TeamSide, using model: TeamEntity) {
         switch side {
         case .top:
-            firstTeamSchemeButton.setTitle(scheme.buttonTitle, for: .normal)
+            firstTeamSchemeButton.setTitle(model.scheme.buttonTitle, for: .normal)
         case .bottom:
-            secondTeamSchemeButton.setTitle(scheme.buttonTitle, for: .normal)
+            secondTeamSchemeButton.setTitle(model.scheme.buttonTitle, for: .normal)
         }
+    }
+    
+    private func getFootballTeamCircleViewsWith(model: TeamEntity, atThe side: TeamSide) -> [PlayerCircleView] {
         
         var footballTeam: [PlayerCircleView] = []
         
-        let topBottomPadding: CGFloat = (footballFieldView.feildFrame.maxY / 2 - circleDiameter * CGFloat(scheme.teamMatrix.count + 1)) / CGFloat(scheme.teamMatrix.count + 1)
+        let topBottomPadding: CGFloat = (footballFieldView.feildFrame.maxY / 2 - circleDiameter * CGFloat(model.teamMatrix.count + 1)) / CGFloat(model.teamMatrix.count + 1)
         
-        for (lineIndex, playersInLine) in scheme.teamMatrix.enumerated() {
+        for (lineIndex, playersInLine) in model.teamMatrix.enumerated() {
             
             let leftRighPadding = (footballFieldView.feildFrame.width - circleDiameter * CGFloat(playersInLine.count)) / CGFloat(playersInLine.count + 1)
             
@@ -168,7 +139,7 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
                 
                 let playerCircle = PlayerCircleView(frame: CGRect(x: startX, y: startY, width: circleDiameter, height: circleDiameter))
                 
-                playerCircle.configureWith(playerNumber: player, teamColor: side.color)
+                playerCircle.configureWith(playerNumber: player.number, teamColor: side.color)
                 
                 footballTeam.append(playerCircle)
             }
@@ -185,6 +156,17 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
         })
     }
     
+    private func dismiss(_ textField: UITextField) {
+        
+        clearTextFields()
+        
+        hideTextField(textField, animated: true)
+        
+        showButtonResponsibleFor(textField)
+        
+        textField.resignFirstResponder()
+    }
+    
     private func hideTextField(_ textField: UITextField, animated: Bool) {
         textField.isHidden = true
         UIView.animate(withDuration: animated ? 0.3 : 0, animations: {
@@ -193,15 +175,12 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
         })
     }
     
-    private func dismiss(_ textField: UITextField) {
-        
+    private func clearTextFields() {
         firstTeamSchemeInputTextField.text = ""
         secondTeamSchemeNameInputTextField.text = ""
-        
-        textField.resignFirstResponder()
-        
-        hideTextField(textField, animated: true)
-        
+    }
+    
+    private func showButtonResponsibleFor(_ textField: UITextField) {
         if textField == firstTeamSchemeInputTextField {
             firstTeamSchemeButton.isHidden = false
         } else {
@@ -209,17 +188,22 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    private func changeSchemeAccordingTo(inputtedText: String?, atThe: TeamSide) {
+    private func changeSchemeAccordingTo(inputtedText: String?, atThe side: TeamSide) {
         if let text = inputtedText,
             let shemeType = TeamSchemeType(rawValue: text) {
-            switch atThe {
+            
+            let team = TeamEntity(by: shemeType)
+            changeTeamSchemeButtonTitle(for: side, using: team)
+            
+            switch side {
             case .top:
                 teamAtTheTop.forEach() { $0.removeFromSuperview()}
-                teamAtTheTop = getFootballTeamCircleViewsWith(scheme: shemeType, atThe: atThe)
+                teamAtTheTop = getFootballTeamCircleViewsWith(model: TeamEntity(by: shemeType), atThe: side)
                 teamAtTheTop.forEach() { self.view.addSubview($0)}
+                
             case .bottom:
                 teamAtTheBottom.forEach() { $0.removeFromSuperview()}
-                teamAtTheBottom = getFootballTeamCircleViewsWith(scheme: shemeType, atThe: atThe)
+                teamAtTheBottom = getFootballTeamCircleViewsWith(model: TeamEntity(by: shemeType), atThe: side)
                 teamAtTheBottom.forEach() { self.view.addSubview($0)}
             }
         }
@@ -270,7 +254,7 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
     
-    fileprivate func makeConstant(_ newConstant: CGFloat, for constraint: NSLayoutConstraint, animated: Bool) {
+    private func makeConstant(_ newConstant: CGFloat, for constraint: NSLayoutConstraint, animated: Bool) {
         UIView.animate(withDuration: animated ? 1 : 0, animations: {
             constraint.constant = newConstant
         })

@@ -15,6 +15,10 @@
 		7921B51A21B55EED0053A75E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7921B51921B55EED0053A75E /* Extensions.swift */; };
 		7921B51D21B56DCA0053A75E /* FootballFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7921B51C21B56DCA0053A75E /* FootballFieldView.swift */; };
 		79489FBB21BACE7B00D1C73D /* PathHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79489FBA21BACE7B00D1C73D /* PathHelper.swift */; };
+		79489FBF21BE727500D1C73D /* PlayerEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79489FBE21BE727500D1C73D /* PlayerEntity.swift */; };
+		79489FC221BEAB6600D1C73D /* TeamSchemeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79489FC121BEAB6600D1C73D /* TeamSchemeType.swift */; };
+		79489FC421BEBC4F00D1C73D /* TeamEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79489FC321BEBC4F00D1C73D /* TeamEntity.swift */; };
+		79489FC621BEBC7000D1C73D /* PlayerPostionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79489FC521BEBC7000D1C73D /* PlayerPostionType.swift */; };
 		796C38C821B6DFB60075D84B /* PlayerCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796C38C721B6DFB60075D84B /* PlayerCircleView.swift */; };
 		796C38CA21B6DFC20075D84B /* PlayerCircleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 796C38C921B6DFC20075D84B /* PlayerCircleView.xib */; };
 /* End PBXBuildFile section */
@@ -30,6 +34,10 @@
 		7921B51921B55EED0053A75E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		7921B51C21B56DCA0053A75E /* FootballFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootballFieldView.swift; sourceTree = "<group>"; };
 		79489FBA21BACE7B00D1C73D /* PathHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathHelper.swift; sourceTree = "<group>"; };
+		79489FBE21BE727500D1C73D /* PlayerEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerEntity.swift; sourceTree = "<group>"; };
+		79489FC121BEAB6600D1C73D /* TeamSchemeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSchemeType.swift; sourceTree = "<group>"; };
+		79489FC321BEBC4F00D1C73D /* TeamEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamEntity.swift; sourceTree = "<group>"; };
+		79489FC521BEBC7000D1C73D /* PlayerPostionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerPostionType.swift; sourceTree = "<group>"; };
 		796C38C721B6DFB60075D84B /* PlayerCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCircleView.swift; sourceTree = "<group>"; };
 		796C38C921B6DFC20075D84B /* PlayerCircleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerCircleView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -64,7 +72,9 @@
 		7921B50021B17C970053A75E /* FootbalFeild */ = {
 			isa = PBXGroup;
 			children = (
+				79489FC721BEBC8300D1C73D /* Enums */,
 				7921B51621B17CFC0053A75E /* ViewControllers */,
+				79489FC021BE72A900D1C73D /* Models */,
 				79489FBC21BAD2F700D1C73D /* Utilites */,
 				79489FBD21BE545300D1C73D /* Subclasses */,
 				7921B52021B5811B0053A75E /* Views */,
@@ -143,6 +153,24 @@
 			path = Subclasses;
 			sourceTree = "<group>";
 		};
+		79489FC021BE72A900D1C73D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				79489FBE21BE727500D1C73D /* PlayerEntity.swift */,
+				79489FC321BEBC4F00D1C73D /* TeamEntity.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		79489FC721BEBC8300D1C73D /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				79489FC521BEBC7000D1C73D /* PlayerPostionType.swift */,
+				79489FC121BEAB6600D1C73D /* TeamSchemeType.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -215,10 +243,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79489FC421BEBC4F00D1C73D /* TeamEntity.swift in Sources */,
 				79489FBB21BACE7B00D1C73D /* PathHelper.swift in Sources */,
 				7921B51D21B56DCA0053A75E /* FootballFieldView.swift in Sources */,
+				79489FC621BEBC7000D1C73D /* PlayerPostionType.swift in Sources */,
 				7921B51821B189440053A75E /* FootballFieldViewController.swift in Sources */,
 				7921B51A21B55EED0053A75E /* Extensions.swift in Sources */,
+				79489FBF21BE727500D1C73D /* PlayerEntity.swift in Sources */,
+				79489FC221BEAB6600D1C73D /* TeamSchemeType.swift in Sources */,
 				796C38C821B6DFB60075D84B /* PlayerCircleView.swift in Sources */,
 				7921B50221B17C970053A75E /* AppDelegate.swift in Sources */,
 			);

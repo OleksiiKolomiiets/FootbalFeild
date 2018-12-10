@@ -28,7 +28,7 @@ class PlayerCircleView: UIView {
         initSubviews()
     }
     
-    public func configureWith(playerNumber: Int, teamColor: UIColor) {
+    public func configureWith(playerNumber: UInt, teamColor: UIColor) {
         playerNumberLabel.text = "\(playerNumber)"
         contentView.backgroundColor = teamColor
         contentView.layer.cornerRadius = contentView.bounds.width / 2

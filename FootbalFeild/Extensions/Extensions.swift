@@ -27,11 +27,3 @@ extension CGRect {
     }
     
 }
-
-extension CGPoint {
-    func distance(from point: CGPoint) -> CGFloat {
-        let xDist = x - point.x
-        let yDist = y - point.y
-        return sqrt((xDist * xDist) + (yDist * yDist))
-    }
-}

@@ -37,19 +37,20 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
     // MARK: - Outlets:
     
     @IBOutlet private weak var footballFieldView: FootballFieldView!
-    @IBOutlet private weak var firstTeamSchemeButton: UIButton!
+    
+    @IBOutlet private weak var firstTeamSchemeButton : UIButton!
     @IBOutlet private weak var secondTeamSchemeButton: UIButton!
-    @IBOutlet private weak var firstTeamSchemeInputTextField: UITextField!
+    
+    @IBOutlet private weak var firstTeamSchemeInputTextField     : UITextField!
     @IBOutlet private weak var secondTeamSchemeNameInputTextField: UITextField!
-    @IBOutlet weak var secondTeamSchemeNameInputBottomConstraint: NSLayoutConstraint!
+    
+    @IBOutlet private weak var secondTeamSchemeNameInputBottomConstraint: NSLayoutConstraint!
     
     
     // MARK: - Properties:
     
-    // MARK: Constants:
     private let maxPlayersInARow = 5
     
-    // MARK: Variables:
     private var circleDiameter: CGFloat {
         return view.frame.width / CGFloat(maxPlayersInARow * 2 + 1)
     }

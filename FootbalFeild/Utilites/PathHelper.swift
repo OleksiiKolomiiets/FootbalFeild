@@ -15,7 +15,6 @@ protocol PathHelperProtocol {
 
 protocol Line { }
 
-
 struct ArcLine: Line {
     let center : CGPoint
     let radius : CGFloat
@@ -23,7 +22,7 @@ struct ArcLine: Line {
 }
 
 struct RectLine: Line {
-    let rect: CGRect
+    let frame: CGRect
 }
 
 struct SingleLine: Line {
@@ -79,7 +78,12 @@ enum ArcType {
 
 class PathHelper: PathHelperProtocol {
     
+    // MARK: - Property:
+    
     public var path: UIBezierPath?
+    
+    
+    // MARK: - Functins:
     
     public func add(_ pathElement: Line) {
         guard self.path != nil else { return }
@@ -88,7 +92,7 @@ class PathHelper: PathHelperProtocol {
             addArcIn(center: arcElement.center, radius: arcElement.radius, arcType: arcElement.type)
         }
         if let rectElement = pathElement as? RectLine {
-            addPathIn(for: rectElement.rect)
+            addPathIn(for: rectElement.frame)
         }
         if let singleLine = pathElement as? SingleLine {
             addSingleLineIn(from: singleLine.start, to: singleLine.end)

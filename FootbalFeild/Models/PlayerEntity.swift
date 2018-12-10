@@ -9,6 +9,9 @@
 import Foundation
 
 struct PlayerEntity {
+    
+    // MARK: - Properties:
+    
     let number: UInt
     let position: PlayerPostionType
 }

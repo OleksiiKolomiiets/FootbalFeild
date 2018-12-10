@@ -10,11 +10,12 @@ import Foundation
 
 class TeamEntity {
     
-    // MARK: - Constants:
+    
+    // MARK: - Properties:
+    
     public let scheme : TeamSchemeType
     public let players: [PlayerEntity]!
     
-    // MARK: - Variables:
     public var teamMatrix: [[PlayerEntity]] {
         var teamMatrix = Array(repeating: [PlayerEntity](), count: PlayerPostionType.allCases.count)
         players.forEach() { player in
@@ -22,6 +23,9 @@ class TeamEntity {
         }
         return teamMatrix.filter({ !$0.isEmpty })
     }
+    
+    
+    // MARK: - Constructor:
     
     init(by scheme: TeamSchemeType) {
         var players: [PlayerEntity] = []

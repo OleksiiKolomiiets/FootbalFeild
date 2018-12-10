@@ -18,17 +18,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="61K-pw-paq">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <view alpha="0.84999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="61K-pw-paq">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" red="0.26913315059999998" green="0.37108236550000001" blue="0.048359066249999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
                         <constraints>
-                            <constraint firstItem="61K-pw-paq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="4vW-5A-jPO"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="61K-pw-paq" secondAttribute="trailing" id="5yF-uW-GJN"/>
-                            <constraint firstItem="61K-pw-paq" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="bea-TV-mex"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="61K-pw-paq" secondAttribute="bottom" id="cF7-CP-1gd"/>
+                            <constraint firstItem="61K-pw-paq" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="4vW-5A-jPO"/>
+                            <constraint firstAttribute="trailing" secondItem="61K-pw-paq" secondAttribute="trailing" id="5yF-uW-GJN"/>
+                            <constraint firstItem="61K-pw-paq" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="bea-TV-mex"/>
+                            <constraint firstAttribute="bottom" secondItem="61K-pw-paq" secondAttribute="bottom" id="cF7-CP-1gd"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

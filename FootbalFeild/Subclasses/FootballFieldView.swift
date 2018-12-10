@@ -29,42 +29,48 @@ class FootballFieldView: UIView {
     
     // MARK: - Properies:
     
-    // MARK: Constatnts:
-    
     private let paddingTopAndBottom: CGFloat = 0
     private let cornerArcsRadius   : CGFloat = 15
+    
     private let lineWidth: CGFloat = 3
+    
     private let footballFieldLinesPath = UIBezierPath()
+    
     private let penaltyArcAngle: CGFloat = 0.25 * .pi
     
-    // MARK: Variables:
     
     private var pathHelper: PathHelperProtocol!
     
     private var paddingLeftAndRight: CGFloat {
         return lineWidth / 2
     }
+    
     private var fieldWidth: CGFloat {
         return bounds.width - CGFloat(2) * paddingLeftAndRight
     }
+    
     private var fieldLength: CGFloat {
         return bounds.height - CGFloat(2) * paddingTopAndBottom
     }
+    
     private var centrRadius: CGFloat  {
         return fieldWidth * CGFloat(0.15)
     }
+    
     public var feildRectangle: CGRect {
         return CGRect(x: bounds.origin.x + paddingLeftAndRight,
                       y: bounds.origin.y + paddingTopAndBottom,
                       width: fieldWidth,
                       height: fieldLength)
     }
+    
     public var feildFrame: CGRect {
         return CGRect(x: frame.origin.x + paddingLeftAndRight,
                       y: frame.origin.y + paddingTopAndBottom,
                       width: fieldWidth,
                       height: fieldLength)
     }
+    
     private var stripeHeight: CGFloat {
         return bounds.height / CGFloat(FootballFieldViewSettings.kStripeCount)
     }
@@ -125,7 +131,7 @@ class FootballFieldView: UIView {
     }
     
     private func addFieldPath() {
-        pathHelper.add(RectLine(rect: feildRectangle))
+        pathHelper.add(RectLine(frame: feildRectangle))
     }
     
     private func addFieldCenterLinePath() {
@@ -182,12 +188,12 @@ class FootballFieldView: UIView {
         
         let topRectFrameY = feildRectangle.origin.y - (isInversed ? rectSize.height : 0)
         let topRectPoint = CGPoint(x: rectFrameX, y: topRectFrameY)
-        let topRectLine = RectLine(rect: CGRect(origin: topRectPoint, size: rectSize))
+        let topRectLine = RectLine(frame: CGRect(origin: topRectPoint, size: rectSize))
         pathHelper.add(topRectLine)
         
         let bottomRectFrameY = feildRectangle.maxY - (isInversed ? 0 : rectSize.height)
         let bottomRectPoint = CGPoint(x: rectFrameX, y: bottomRectFrameY)
-        let bottomRectLine = RectLine(rect: CGRect(origin: bottomRectPoint, size: rectSize))
+        let bottomRectLine = RectLine(frame: CGRect(origin: bottomRectPoint, size: rectSize))
         pathHelper.add(bottomRectLine)
     }
     

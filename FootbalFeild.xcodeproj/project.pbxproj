@@ -14,7 +14,6 @@
 		7921B51821B189440053A75E /* FootballFieldViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7921B51721B189440053A75E /* FootballFieldViewController.swift */; };
 		7921B51A21B55EED0053A75E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7921B51921B55EED0053A75E /* Extensions.swift */; };
 		7921B51D21B56DCA0053A75E /* FootballFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7921B51C21B56DCA0053A75E /* FootballFieldView.swift */; };
-		7921B51F21B580D30053A75E /* ArcType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7921B51E21B580D30053A75E /* ArcType.swift */; };
 		79489FBB21BACE7B00D1C73D /* PathHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79489FBA21BACE7B00D1C73D /* PathHelper.swift */; };
 		796C38C821B6DFB60075D84B /* PlayerCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796C38C721B6DFB60075D84B /* PlayerCircleView.swift */; };
 		796C38CA21B6DFC20075D84B /* PlayerCircleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 796C38C921B6DFC20075D84B /* PlayerCircleView.xib */; };
@@ -30,7 +29,6 @@
 		7921B51721B189440053A75E /* FootballFieldViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootballFieldViewController.swift; sourceTree = "<group>"; };
 		7921B51921B55EED0053A75E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		7921B51C21B56DCA0053A75E /* FootballFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootballFieldView.swift; sourceTree = "<group>"; };
-		7921B51E21B580D30053A75E /* ArcType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArcType.swift; sourceTree = "<group>"; };
 		79489FBA21BACE7B00D1C73D /* PathHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathHelper.swift; sourceTree = "<group>"; };
 		796C38C721B6DFB60075D84B /* PlayerCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCircleView.swift; sourceTree = "<group>"; };
 		796C38C921B6DFC20075D84B /* PlayerCircleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerCircleView.xib; sourceTree = "<group>"; };
@@ -67,8 +65,8 @@
 			isa = PBXGroup;
 			children = (
 				7921B51621B17CFC0053A75E /* ViewControllers */,
-				7921B52121B581270053A75E /* Enums */,
 				79489FBC21BAD2F700D1C73D /* Utilites */,
+				79489FBD21BE545300D1C73D /* Subclasses */,
 				7921B52021B5811B0053A75E /* Views */,
 				7921B51B21B56D960053A75E /* Extensions */,
 				7921B51421B17CBE0053A75E /* Storyboard */,
@@ -123,19 +121,10 @@
 		7921B52021B5811B0053A75E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7921B51C21B56DCA0053A75E /* FootballFieldView.swift */,
 				796C38C721B6DFB60075D84B /* PlayerCircleView.swift */,
 				796C38C921B6DFC20075D84B /* PlayerCircleView.xib */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		7921B52121B581270053A75E /* Enums */ = {
-			isa = PBXGroup;
-			children = (
-				7921B51E21B580D30053A75E /* ArcType.swift */,
-			);
-			path = Enums;
 			sourceTree = "<group>";
 		};
 		79489FBC21BAD2F700D1C73D /* Utilites */ = {
@@ -144,6 +133,14 @@
 				79489FBA21BACE7B00D1C73D /* PathHelper.swift */,
 			);
 			path = Utilites;
+			sourceTree = "<group>";
+		};
+		79489FBD21BE545300D1C73D /* Subclasses */ = {
+			isa = PBXGroup;
+			children = (
+				7921B51C21B56DCA0053A75E /* FootballFieldView.swift */,
+			);
+			path = Subclasses;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -223,7 +220,6 @@
 				7921B51821B189440053A75E /* FootballFieldViewController.swift in Sources */,
 				7921B51A21B55EED0053A75E /* Extensions.swift in Sources */,
 				796C38C821B6DFB60075D84B /* PlayerCircleView.swift in Sources */,
-				7921B51F21B580D30053A75E /* ArcType.swift in Sources */,
 				7921B50221B17C970053A75E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

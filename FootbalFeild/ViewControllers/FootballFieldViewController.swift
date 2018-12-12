@@ -100,7 +100,7 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
         footballFieldView.footballFieldManager = footballFieldManager
         
         
-        circleDiameter = view.frame.width / CGFloat(maxPlayersInARow * 2 )
+        circleDiameter = view.frame.width / CGFloat(maxPlayersInARow * 3 )
         controlsFontSize = circleDiameter * 0.5
         
         firstTeamSchemeInputTextField.font = UIFont.systemFont(ofSize: controlsFontSize,  weight: .thin)
@@ -166,12 +166,16 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
                 
                 let startY = fieldMinY + side.indicator * (lengthOfAddedHorizontalCircles + lengthOfAddedHorizontalPaddings)
                 
-                let playerCircle = PlayerCircleView(frame: CGRect(x: startX, y: startY, width: circleDiameter, height: circleDiameter))
+                let playerCircle = PlayerCircleView(frame: CGRect(x: startX, y: startY, width: circleDiameter, height: circleDiameter + controlsFontSize))
                 
                 let playerNumberFont = UIFont.systemFont(ofSize: controlsFontSize, weight: .thin)
+                
                 let playerNumberAtributedString = NSAttributedString(string: "\(player.number)", attributes: [.font : playerNumberFont])
                 
-                playerCircle.configureWith(playerNumber: playerNumberAtributedString, teamColor: side.color)
+                let playerNameFont = UIFont.systemFont(ofSize: controlsFontSize * 0.5, weight: .thin)
+                let playerNameAtributedString = NSAttributedString(string: "\(player.fullName)", attributes: [.font : playerNameFont])
+                
+                playerCircle.configureWith(playerNumber: playerNumberAtributedString, teamColor: side.color, playerName: playerNameAtributedString)
                 
                 footballTeam.append(playerCircle)
             }

@@ -10,9 +10,11 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PlayerCircleView" customModule="FootbalFeild" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PlayerCircleView" customModule="FootbalField" customModuleProvider="target">
             <connections>
-                <outlet property="contentView" destination="iN0-l3-epB" id="hth-Cn-Ffx"/>
+                <outlet property="circleView" destination="Ubb-pn-6mt" id="Mgo-FF-xHW"/>
+                <outlet property="contentView" destination="iN0-l3-epB" id="vyi-B9-CQn"/>
+                <outlet property="playerNameLabel" destination="BPh-in-8hh" id="dL3-TA-0jw"/>
                 <outlet property="playerNumberLabel" destination="jF5-Te-uRy" id="sTL-Y1-1h5"/>
             </connections>
         </placeholder>
@@ -21,17 +23,39 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jF5-Te-uRy">
-                    <rect key="frame" x="163.5" y="321.5" width="48" height="24"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                    <nil key="textColor"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ubb-pn-6mt">
+                    <rect key="frame" x="0.0" y="20" width="375" height="375"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jF5-Te-uRy">
+                            <rect key="frame" x="163.5" y="175.5" width="48" height="24"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="jF5-Te-uRy" firstAttribute="centerX" secondItem="Ubb-pn-6mt" secondAttribute="centerX" id="E0i-3w-XFA"/>
+                        <constraint firstAttribute="width" secondItem="Ubb-pn-6mt" secondAttribute="height" multiplier="125:125" id="LFe-gb-1ad"/>
+                        <constraint firstItem="jF5-Te-uRy" firstAttribute="centerY" secondItem="Ubb-pn-6mt" secondAttribute="centerY" id="r4s-00-vkH"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BPh-in-8hh">
+                    <rect key="frame" x="166.5" y="400" width="42" height="267"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="jF5-Te-uRy" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="5AO-jb-Hd9"/>
-                <constraint firstItem="jF5-Te-uRy" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="B0r-nb-GYn"/>
+                <constraint firstItem="Ubb-pn-6mt" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="7oG-I0-LLJ"/>
+                <constraint firstItem="BPh-in-8hh" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="AEZ-Wj-0z9"/>
+                <constraint firstItem="BPh-in-8hh" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="CYf-rw-hFi"/>
+                <constraint firstItem="Ubb-pn-6mt" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="FRz-ci-TPV"/>
+                <constraint firstItem="Ubb-pn-6mt" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="KLK-wN-IsE"/>
+                <constraint firstItem="BPh-in-8hh" firstAttribute="top" secondItem="Ubb-pn-6mt" secondAttribute="bottom" constant="5" id="RWk-9K-GnF"/>
+                <constraint firstItem="Ubb-pn-6mt" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="nE1-VJ-ADg"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <point key="canvasLocation" x="-120.8" y="-183.05847076461771"/>

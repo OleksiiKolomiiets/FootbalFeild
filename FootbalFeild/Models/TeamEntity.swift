@@ -13,6 +13,9 @@ class TeamEntity {
     
     // MARK: - Properties:
     
+    private let playerFirstNames = ["Alex", "Jhon", "Kurt", "Nick"]
+    private let playerLastNames  = ["Stone", "Storm", "Flower", "Snow"]
+    
     public let scheme : TeamSchemeType
     public let players: [PlayerEntity]
     
@@ -35,7 +38,7 @@ class TeamEntity {
             guard let position = PlayerPostionType(rawValue: positionIndex) else { continue }
             
             for _ in 0 ..< positionCount {
-                let player = PlayerEntity(number: playerIndex, position: position)
+                let player = PlayerEntity(number: playerIndex, position: position, firstName: "\(playerFirstNames[Int.random(in: playerFirstNames.indices)])", lastName: "\(playerLastNames[Int.random(in: playerLastNames.indices)])")
                 players.append(player)
                 playerIndex += 1
             }

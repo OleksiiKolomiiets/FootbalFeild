@@ -14,7 +14,9 @@ class PlayerCircleView: UIView {
     // MARK: - Outlets:
 
     @IBOutlet private var contentView: UIView!
+    @IBOutlet weak var circleView: UIView!
     @IBOutlet private weak var playerNumberLabel: UILabel!
+    @IBOutlet weak var playerNameLabel: UILabel!
     
     
     // MARK: - Constructors:
@@ -37,10 +39,11 @@ class PlayerCircleView: UIView {
     
     // MARK: - Functions:
     
-    public func configureWith(playerNumber: NSAttributedString, teamColor: UIColor) {
+    public func configureWith(playerNumber: NSAttributedString, teamColor: UIColor, playerName: NSAttributedString) {
         playerNumberLabel.attributedText = playerNumber
-        contentView.backgroundColor = teamColor
-        contentView.layer.cornerRadius = contentView.bounds.width / 2
+        circleView.backgroundColor = teamColor
+        playerNameLabel.attributedText = playerName
+        circleView.layer.cornerRadius = contentView.frame.width / 2
         playerNumberLabel.textColor = teamColor == .black ? .white : .black
     }
 

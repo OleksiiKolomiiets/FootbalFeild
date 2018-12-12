@@ -12,8 +12,14 @@ struct PlayerEntity {
     
     // MARK: - Properties:
     
-    let number  : UInt
-    let position: PlayerPostionType
+    let number   : UInt
+    let position : PlayerPostionType
+    let firstName: String
+    let lastName : String
+    
+    var fullName: String {
+        return "\(firstName) \(lastName)"
+    }
 }
 
 

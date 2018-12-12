@@ -10,9 +10,8 @@ import UIKit
 
 protocol FootballFieldManagable {
     var delegate: FootballFieldView? { get set }
-    
-    var fieldRect: CGRect { get }
-    var path: UIBezierPath { get set }
+    var rect: CGRect! { get }    
+    func drawFootballField()
 }
 
 fileprivate class FootballFieldSettings {
@@ -37,22 +36,28 @@ fileprivate class FootballFieldSettings {
 
 class FootballFieldManager: FootballFieldManagable {
     
+    // MARK: - Constants:
+    
+    private let pathHelper = PathHelper()
+    
+    public let path = UIBezierPath()
+    
+    
     // MARK: - Variables:
     
     public var delegate: FootballFieldView?
     
-    public var path = UIBezierPath()
-    
-    
-    private let pathHelper = PathHelper()
+    public var rect: CGRect!
     
     
     // MARK: - Computed properies:
     
-    public var fieldRect: CGRect {
+    private var fieldRect: CGRect {
+        if rect == nil {
+            rect = CGRect(origin: fieldBoundsOrigin, size: fieldSize)
+        }
         return CGRect(origin: fieldBoundsOrigin, size: fieldSize)
     }
-    
     
     private var lineWidth: CGFloat {
         guard let delegate = delegate else { return 0 }

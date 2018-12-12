@@ -1,6 +1,6 @@
 //
 //  Team.swift
-//  FootbalFeild
+//  FootbalField
 //
 //  Created by Oleksii  Kolomiiets on 12/10/18.
 //  Copyright © 2018 Oleksii  Kolomiets. All rights reserved.
@@ -14,7 +14,7 @@ class TeamEntity {
     // MARK: - Properties:
     
     public let scheme : TeamSchemeType
-    public let players: [PlayerEntity]!
+    public let players: [PlayerEntity]
     
     public var teamMatrix: [[PlayerEntity]] {
         var teamMatrix = Array(repeating: [PlayerEntity](), count: PlayerPostionType.allCases.count)

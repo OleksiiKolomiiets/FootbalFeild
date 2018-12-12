@@ -1,6 +1,6 @@
 //
 //  FootballFieldViewController.swift
-//  FootbalFeild
+//  FootbalField
 //
 //  Created by Oleksii  Kolomiiets on 11/30/18.
 //  Copyright © 2018 Oleksii  Kolomiets. All rights reserved.
@@ -49,17 +49,19 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Properties:
     
-    private let maxPlayersInARow = 5
-    
-    private var circleDiameter: CGFloat {
-        return view.frame.width / CGFloat(maxPlayersInARow * 2 + 1)
-    }
+    private let maxPlayersInARow = 5.0
     
     private(set) var teamAtTheTop    : [PlayerCircleView]!
     private(set) var teamAtTheBottom : [PlayerCircleView]!
     
     private var activeTextField : UITextField!
     private var editingTeameSide: TeamSide!
+    
+    private var footballFieldManager = FootballFieldManager()
+    
+    private var circleDiameter: CGFloat {
+        return view.frame.width / CGFloat(maxPlayersInARow * 2 )
+    }
     
     
     // MARK: - Actions:
@@ -73,11 +75,11 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    @objc func cancelNumberPad() {
+    @objc private func cancelNumberPad() {
         dismiss(activeTextField)
     }
     
-    @objc func doneWithNumberPad() {
+    @objc private func doneWithNumberPad() {
         changeSchemeAccordingTo(inputtedText: activeTextField.text, atThe: editingTeameSide)
         
         dismiss(activeTextField)
@@ -93,12 +95,14 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
         
         setupKeyboardToolbar(for: firstTeamSchemeInputTextField)
         setupKeyboardToolbar(for: secondTeamSchemeNameInputTextField)
+        
+        footballFieldView.footballFieldManager = footballFieldManager
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        let defaultTeam = TeamEntity(by: .s433)
+        let defaultTeam = TeamEntity(by: .s1432)
         
         teamAtTheTop = getFootballTeamCircleViewsWith(model: defaultTeam, atThe: .top)
         changeTeamSchemeButtonTitle(for: .top, using: defaultTeam)
@@ -106,9 +110,8 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
         teamAtTheBottom = getFootballTeamCircleViewsWith(model: defaultTeam, atThe: .bottom)
         changeTeamSchemeButtonTitle(for: .bottom, using: defaultTeam)
         
-        teamAtTheTop.forEach() { self.view.addSubview($0)}
-        teamAtTheBottom.forEach() { self.view.addSubview($0)}
-        
+        teamAtTheTop.forEach() { footballFieldView.addSubview($0)}
+        teamAtTheBottom.forEach() { footballFieldView.addSubview($0)}
         
     }
     
@@ -128,19 +131,19 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
         
         var footballTeam: [PlayerCircleView] = []
         
-        let topBottomPadding: CGFloat = (footballFieldView.feildFrame.maxY / 2 - circleDiameter * CGFloat(model.teamMatrix.count + 1)) / CGFloat(model.teamMatrix.count + 1)
+        let verticalPadding = getPaddingFor(elements: model.teamMatrix.count, inLine: footballFieldManager.fieldRect.height / 2)
         
         for (lineIndex, playersInLine) in model.teamMatrix.enumerated() {
             
-            let leftRighPadding = (footballFieldView.feildFrame.width - circleDiameter * CGFloat(playersInLine.count)) / CGFloat(playersInLine.count + 1)
+            let horizontalPadding = getPaddingFor(elements: playersInLine.count, inLine: footballFieldManager.fieldRect.width)
             
             for (indexFirstTeam, player)in playersInLine.enumerated() {
-                let startX = footballFieldView.feildFrame.minX + circleDiameter * CGFloat(indexFirstTeam) + leftRighPadding * CGFloat(indexFirstTeam + 1)
-                let startY = (side == .top ? footballFieldView.feildFrame.minY : footballFieldView.frame.maxY - circleDiameter) + side.indicator * (circleDiameter * CGFloat(lineIndex) + topBottomPadding * CGFloat(lineIndex + 1))
+                let startX = footballFieldManager.fieldRect.minX + circleDiameter * CGFloat(indexFirstTeam) + horizontalPadding * CGFloat(indexFirstTeam + 1)
+                let startY = (side == .top ? footballFieldManager.fieldRect.minY : footballFieldManager.fieldRect.height - circleDiameter) + side.indicator * (circleDiameter * CGFloat(lineIndex) + verticalPadding * CGFloat(lineIndex + 1))
                 
                 let playerCircle = PlayerCircleView(frame: CGRect(x: startX, y: startY, width: circleDiameter, height: circleDiameter))
-                
-                playerCircle.configureWith(playerNumber: player.number, teamColor: side.color)
+                let playerNumberAtributedString = NSAttributedString(string: "\(player.number)", attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: circleDiameter * 0.5, weight: .thin)])
+                playerCircle.configureWith(playerNumber: playerNumberAtributedString, teamColor: side.color)
                 
                 footballTeam.append(playerCircle)
             }
@@ -148,6 +151,16 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
         
         return footballTeam
     }
+    
+    private func getPaddingFor(elements amount: Int, inLine length: CGFloat) -> CGFloat {
+        let halfOfTheFieldLength = length
+        let lengthOfAllCirclesVertical = circleDiameter * CGFloat(amount)
+        let amountOfVerticalPaddings = CGFloat(amount + 1)
+        
+        return (halfOfTheFieldLength - lengthOfAllCirclesVertical) / amountOfVerticalPaddings
+    }
+    
+    
     
     private func show(_ textField: UITextField, animated: Bool) {
         textField.isHidden = false
@@ -200,12 +213,12 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
             case .top:
                 teamAtTheTop.forEach() { $0.removeFromSuperview()}
                 teamAtTheTop = getFootballTeamCircleViewsWith(model: TeamEntity(by: shemeType), atThe: side)
-                teamAtTheTop.forEach() { self.view.addSubview($0)}
+                teamAtTheTop.forEach() { self.footballFieldView.addSubview($0)}
                 
             case .bottom:
                 teamAtTheBottom.forEach() { $0.removeFromSuperview()}
                 teamAtTheBottom = getFootballTeamCircleViewsWith(model: TeamEntity(by: shemeType), atThe: side)
-                teamAtTheBottom.forEach() { self.view.addSubview($0)}
+                teamAtTheBottom.forEach() { self.footballFieldView.addSubview($0)}
             }
         }
     }

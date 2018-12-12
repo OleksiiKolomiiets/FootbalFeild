@@ -1,6 +1,6 @@
 //
 //  PlayerCircleView.swift
-//  FootbalFeild
+//  FootbalField
 //
 //  Created by Oleksii  Kolomiiets on 12/4/18.
 //  Copyright © 2018 Oleksii  Kolomiets. All rights reserved.
@@ -37,8 +37,8 @@ class PlayerCircleView: UIView {
     
     // MARK: - Functions:
     
-    public func configureWith(playerNumber: UInt, teamColor: UIColor) {
-        playerNumberLabel.text = "\(playerNumber)"
+    public func configureWith(playerNumber: NSAttributedString, teamColor: UIColor) {
+        playerNumberLabel.attributedText = playerNumber
         contentView.backgroundColor = teamColor
         contentView.layer.cornerRadius = contentView.bounds.width / 2
         playerNumberLabel.textColor = teamColor == .black ? .white : .black

@@ -1,6 +1,6 @@
 //
 //  PathHelper.swift
-//  FootbalFeild
+//  FootbalField
 //
 //  Created by Oleksii  Kolomiiets on 12/7/18.
 //  Copyright © 2018 Oleksii  Kolomiets. All rights reserved.
@@ -10,9 +10,9 @@ import UIKit
 
 protocol PathHelperProtocol {
     
-    static var path: UIBezierPath { get set }
+    var path: UIBezierPath { get set }
     
-    static func add(_ pathElement: Line)
+    func add(_ pathElement: Line)
     
 }
 
@@ -83,12 +83,12 @@ class PathHelper: PathHelperProtocol {
     
     // MARK: - Property:
     
-    static public var path = UIBezierPath()
+    public var path = UIBezierPath()
     
     
     // MARK: - Functins:
     
-    static public func add(_ pathElement: Line) {
+    public func add(_ pathElement: Line) {
         if let arcElement = pathElement as? ArcLine {
             addArcIn(center: arcElement.center, radius: arcElement.radius, arcType: arcElement.type)
         }
@@ -100,7 +100,7 @@ class PathHelper: PathHelperProtocol {
         }
     }
     
-    static private func addPathIn(for frame: CGRect) {
+    private func addPathIn(for frame: CGRect) {
         path.move(to: frame.topLeftCorner)
         path.addLine(to: frame.topRightCorner)
         path.addLine(to: frame.bottomRightCorner)
@@ -109,12 +109,12 @@ class PathHelper: PathHelperProtocol {
         path.close()
     }
     
-    static private func addArcIn(center: CGPoint, radius: CGFloat, arcType: ArcType) {
+    private func addArcIn(center: CGPoint, radius: CGFloat, arcType: ArcType) {
         path.move(to: CGPoint(x: center.x + radius * arcType.arcStartXCorrecion, y: center.y + radius * arcType.arcStartYCorrection))
         path.addArc(withCenter: center, radius: radius, startAngle: arcType.startAngle, endAngle: arcType.endAngle, clockwise: true)
     }
     
-    static private func addSingleLineIn(from start: CGPoint, to end: CGPoint) {
+    private func addSingleLineIn(from start: CGPoint, to end: CGPoint) {
         path.move(to: start)
         path.addLine(to: end)
     }

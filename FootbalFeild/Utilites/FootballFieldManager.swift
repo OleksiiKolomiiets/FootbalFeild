@@ -30,7 +30,7 @@ fileprivate class FootballFieldSettings {
     static let kGoalAreaWidthCoefficient  = CGFloat(0.3)
     static let kGoalAreaLengthCoefficient = CGFloat(0.3)
     
-    static let kPenaltyCenterLengthCoefficient = CGFloat(0.1)
+    static let kPenaltyCenterLengthCoefficient = CGFloat(0.12)
     
 }
 
@@ -155,6 +155,8 @@ class FootballFieldManager: FootballFieldManagable {
         addFieldCenterCirclePath()
         addFieldCornersArcPaths()
         addPenaltyArcPath()
+        
+        addPenaltyDotPath()
     }
     
     private func addFieldPath() {
@@ -200,6 +202,16 @@ class FootballFieldManager: FootballFieldManagable {
         let bottomPenaltyCenterPoint = getPenaltyCenterPoint(accordingToArcStart: bottomPenaltyArcStartPoint)
         let bottomPenaltyArc = ArcLine(center: bottomPenaltyCenterPoint, radius: penaltyArcRadius, type: .bottomPenalty)
         pathHelper.add(bottomPenaltyArc)
+    }
+    
+    private func addPenaltyDotPath() {
+        let topPenaltyDotPoint = CGPoint(x: fieldRect.midX, y: fieldRect.minY + penaltyCenterLength)
+        let topPenaltyDot = ArcLine(center: topPenaltyDotPoint, radius: lineWidth / 2, type: .circle)
+        pathHelper.add(topPenaltyDot)
+        
+        let bottomPenaltyDotPoint = CGPoint(x: fieldRect.midX, y: fieldRect.maxY - penaltyCenterLength)
+        let bottomPenaltyDot = ArcLine(center: bottomPenaltyDotPoint, radius: lineWidth / 2, type: .circle)
+        pathHelper.add(bottomPenaltyDot)
     }
     
     private func getPenaltyCenterPoint(accordingToArcStart point: CGPoint) -> CGPoint {

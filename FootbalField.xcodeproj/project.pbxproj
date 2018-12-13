@@ -20,6 +20,8 @@
 		79489FC421BEBC4F00D1C73D /* TeamEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79489FC321BEBC4F00D1C73D /* TeamEntity.swift */; };
 		79489FC621BEBC7000D1C73D /* PlayerPostionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79489FC521BEBC7000D1C73D /* PlayerPostionType.swift */; };
 		79489FC921C1183600D1C73D /* FootballFieldManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79489FC821C1183600D1C73D /* FootballFieldManager.swift */; };
+		79489FCB21C2506B00D1C73D /* SchemePopupViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79489FCA21C2506B00D1C73D /* SchemePopupViewController.storyboard */; };
+		79489FCD21C253E600D1C73D /* SchemePopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79489FCC21C253E600D1C73D /* SchemePopupViewController.swift */; };
 		796C38C821B6DFB60075D84B /* PlayerCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796C38C721B6DFB60075D84B /* PlayerCircleView.swift */; };
 		796C38CA21B6DFC20075D84B /* PlayerCircleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 796C38C921B6DFC20075D84B /* PlayerCircleView.xib */; };
 /* End PBXBuildFile section */
@@ -40,6 +42,8 @@
 		79489FC321BEBC4F00D1C73D /* TeamEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamEntity.swift; sourceTree = "<group>"; };
 		79489FC521BEBC7000D1C73D /* PlayerPostionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerPostionType.swift; sourceTree = "<group>"; };
 		79489FC821C1183600D1C73D /* FootballFieldManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootballFieldManager.swift; sourceTree = "<group>"; };
+		79489FCA21C2506B00D1C73D /* SchemePopupViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SchemePopupViewController.storyboard; sourceTree = "<group>"; };
+		79489FCC21C253E600D1C73D /* SchemePopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemePopupViewController.swift; sourceTree = "<group>"; };
 		796C38C721B6DFB60075D84B /* PlayerCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCircleView.swift; sourceTree = "<group>"; };
 		796C38C921B6DFC20075D84B /* PlayerCircleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerCircleView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -100,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				7921B50521B17C970053A75E /* FootballField.storyboard */,
+				79489FCA21C2506B00D1C73D /* SchemePopupViewController.storyboard */,
 				7921B50A21B17C990053A75E /* LaunchScreen.storyboard */,
 			);
 			path = Storyboard;
@@ -117,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				7921B51721B189440053A75E /* FootballFieldViewController.swift */,
+				79489FCC21C253E600D1C73D /* SchemePopupViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -224,6 +230,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79489FCB21C2506B00D1C73D /* SchemePopupViewController.storyboard in Resources */,
 				7921B50C21B17C990053A75E /* LaunchScreen.storyboard in Resources */,
 				7921B50921B17C990053A75E /* Assets.xcassets in Resources */,
 				7921B50721B17C970053A75E /* FootballField.storyboard in Resources */,
@@ -244,6 +251,7 @@
 				79489FC621BEBC7000D1C73D /* PlayerPostionType.swift in Sources */,
 				7921B51821B189440053A75E /* FootballFieldViewController.swift in Sources */,
 				7921B51A21B55EED0053A75E /* Extensions.swift in Sources */,
+				79489FCD21C253E600D1C73D /* SchemePopupViewController.swift in Sources */,
 				79489FBF21BE727500D1C73D /* PlayerEntity.swift in Sources */,
 				79489FC921C1183600D1C73D /* FootballFieldManager.swift in Sources */,
 				79489FC221BEAB6600D1C73D /* TeamSchemeType.swift in Sources */,

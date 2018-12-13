@@ -13,11 +13,12 @@ class TeamEntity {
     
     // MARK: - Properties:
     
-    private let playerFirstNames = ["Alex", "Jhon", "Kurt", "Nick"]
+    private let playerFirstNames = ["Alex", "Jhon", "Kurt", "Nick", "Bran"]
     private let playerLastNames  = ["Stone", "Storm", "Flower", "Snow"]
+    private let teamNames        = ["KIEV", "LVIV", "DNIPRO", "VINNYTSIA"]
     
-    public let scheme : TeamSchemeType
-    public let players: [PlayerEntity]
+    public var scheme : TeamSchemeType
+    public let name   : String
     
     public var teamMatrix: [[PlayerEntity]] {
         var teamMatrix = Array(repeating: [PlayerEntity](), count: PlayerPostionType.allCases.count)
@@ -27,10 +28,7 @@ class TeamEntity {
         return teamMatrix.filter({ !$0.isEmpty })
     }
     
-    
-    // MARK: - Constructor:
-    
-    init(by scheme: TeamSchemeType) {
+    public var players: [PlayerEntity] {
         var players: [PlayerEntity] = []
         var playerIndex: UInt = 1
         
@@ -43,9 +41,15 @@ class TeamEntity {
                 playerIndex += 1
             }
         }
-        
-        self.players = players
+        return players
+    }
+    
+    
+    // MARK: - Constructor:
+    
+    init(by scheme: TeamSchemeType) {
         self.scheme = scheme
+        self.name = "FC \(teamNames[Int.random(in: teamNames.indices)])"
     }
     
 }

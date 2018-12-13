@@ -14,9 +14,9 @@ class PlayerCircleView: UIView {
     // MARK: - Outlets:
 
     @IBOutlet private var contentView: UIView!
-    @IBOutlet weak var circleView: UIView!
+    @IBOutlet private weak var circleView: UIView!
     @IBOutlet private weak var playerNumberLabel: UILabel!
-    @IBOutlet weak var playerNameLabel: UILabel!
+    @IBOutlet private weak var playerNameLabel: UILabel!
     
     
     // MARK: - Constructors:

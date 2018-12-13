@@ -22,17 +22,6 @@
                                 <rect key="frame" x="16" y="68" width="288" height="446"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <textField hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QEN-dG-CH1">
-                                <rect key="frame" x="274" y="28" width="30" height="32"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="numberPad" keyboardAppearance="alert"/>
-                                <connections>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="Heh-Yp-Dxj"/>
-                                </connections>
-                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QA2-Q1-Sxt">
                                 <rect key="frame" x="274" y="28" width="30" height="32"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -42,54 +31,54 @@
                                     <action selector="schemeButtonTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zhO-Q2-41t"/>
                                 </connections>
                             </button>
-                            <textField hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RgV-DG-BJh">
-                                <rect key="frame" x="274" y="530" width="30" height="30"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5tg-W9-jCp">
+                                <rect key="frame" x="16" y="28" width="42" height="32"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <textInputTraits key="textInputTraits" keyboardType="numberPad" keyboardAppearance="alert" textContentType="cc-number"/>
-                                <connections>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="Wp1-kR-0G3"/>
-                                </connections>
-                            </textField>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JP4-Di-EPa">
-                                <rect key="frame" x="274" y="530" width="30" height="30"/>
+                                <rect key="frame" x="16" y="530" width="30" height="30"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title=" 2"/>
                                 <connections>
                                     <action selector="schemeButtonTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1al-sQ-mCc"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sjS-lB-UEU">
+                                <rect key="frame" x="262" y="530" width="42" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.26913315059999998" green="0.37108236550000001" blue="0.048359066249999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="sjS-lB-UEU" firstAttribute="bottom" secondItem="JP4-Di-EPa" secondAttribute="bottom" id="41O-eg-ori"/>
+                            <constraint firstItem="sjS-lB-UEU" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="JP4-Di-EPa" secondAttribute="trailing" constant="8" symbolic="YES" id="Amd-pZ-RBt"/>
                             <constraint firstItem="JP4-Di-EPa" firstAttribute="top" secondItem="6xg-dB-yTJ" secondAttribute="bottom" constant="16" id="DKg-4B-Ngq"/>
                             <constraint firstAttribute="trailing" secondItem="6xg-dB-yTJ" secondAttribute="trailing" constant="16" id="FGC-lF-xxw"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="JP4-Di-EPa" secondAttribute="trailing" constant="16" id="HJM-mG-4gH"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="QA2-Q1-Sxt" secondAttribute="trailing" constant="16" id="OHy-ga-mnS"/>
-                            <constraint firstItem="JP4-Di-EPa" firstAttribute="trailing" secondItem="RgV-DG-BJh" secondAttribute="trailing" id="QIa-Qz-T6X"/>
-                            <constraint firstItem="QA2-Q1-Sxt" firstAttribute="top" secondItem="QEN-dG-CH1" secondAttribute="top" id="Rzc-Wg-Acl"/>
                             <constraint firstItem="6xg-dB-yTJ" firstAttribute="top" secondItem="QA2-Q1-Sxt" secondAttribute="bottom" constant="8" id="Tcb-f0-DuQ"/>
                             <constraint firstItem="6xg-dB-yTJ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="TqM-Gp-wVU"/>
-                            <constraint firstItem="JP4-Di-EPa" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="239" id="VOk-hx-muA"/>
-                            <constraint firstItem="QA2-Q1-Sxt" firstAttribute="bottom" secondItem="QEN-dG-CH1" secondAttribute="bottom" id="XWU-sS-1e2"/>
-                            <constraint firstItem="RgV-DG-BJh" firstAttribute="height" secondItem="JP4-Di-EPa" secondAttribute="height" id="cMx-fe-t5p"/>
-                            <constraint firstItem="QA2-Q1-Sxt" firstAttribute="leading" secondItem="QEN-dG-CH1" secondAttribute="leading" id="gJK-WO-gS0"/>
+                            <constraint firstItem="JP4-Di-EPa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="VOk-hx-muA"/>
+                            <constraint firstItem="6xg-dB-yTJ" firstAttribute="leading" secondItem="5tg-W9-jCp" secondAttribute="leading" id="aXA-1x-uha"/>
+                            <constraint firstItem="sjS-lB-UEU" firstAttribute="top" secondItem="JP4-Di-EPa" secondAttribute="top" id="arJ-HB-SXo"/>
+                            <constraint firstItem="QA2-Q1-Sxt" firstAttribute="top" secondItem="5tg-W9-jCp" secondAttribute="top" id="ecO-T8-HdT"/>
                             <constraint firstItem="QA2-Q1-Sxt" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="8" id="hsc-Va-eHr"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="RgV-DG-BJh" secondAttribute="bottom" constant="8" id="n87-5T-6rg"/>
-                            <constraint firstItem="QA2-Q1-Sxt" firstAttribute="trailing" secondItem="QEN-dG-CH1" secondAttribute="trailing" id="xP0-e4-ey4"/>
-                            <constraint firstItem="RgV-DG-BJh" firstAttribute="width" secondItem="JP4-Di-EPa" secondAttribute="width" id="ybj-HN-N5C"/>
+                            <constraint firstItem="QA2-Q1-Sxt" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="5tg-W9-jCp" secondAttribute="trailing" constant="8" symbolic="YES" id="rCI-S8-WiJ"/>
+                            <constraint firstItem="QA2-Q1-Sxt" firstAttribute="bottom" secondItem="5tg-W9-jCp" secondAttribute="bottom" id="sG8-go-5lU"/>
+                            <constraint firstItem="sjS-lB-UEU" firstAttribute="trailing" secondItem="6xg-dB-yTJ" secondAttribute="trailing" id="vk2-wq-I8H"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="JP4-Di-EPa" secondAttribute="bottom" constant="8" id="zm3-As-UnX"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="firstTeamLabel" destination="5tg-W9-jCp" id="aIx-f1-p0d"/>
                         <outlet property="firstTeamSchemeButton" destination="QA2-Q1-Sxt" id="QSW-ii-5ta"/>
-                        <outlet property="firstTeamSchemeInputTextField" destination="QEN-dG-CH1" id="CiH-dP-rk1"/>
                         <outlet property="footballFieldView" destination="6xg-dB-yTJ" id="t68-fb-93o"/>
+                        <outlet property="secondTeamLabel" destination="sjS-lB-UEU" id="JTM-c0-EbG"/>
                         <outlet property="secondTeamSchemeButton" destination="JP4-Di-EPa" id="HcX-XT-FUb"/>
-                        <outlet property="secondTeamSchemeInputTextField" destination="RgV-DG-BJh" id="ZRR-tE-xqp"/>
-                        <outlet property="secondTeamSchemeNameInputBottomConstraint" destination="n87-5T-6rg" id="PnH-rX-GYw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

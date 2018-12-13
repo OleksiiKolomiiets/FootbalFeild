@@ -31,7 +31,7 @@ fileprivate enum TeamSide: Int {
     }
 }
 
-class FootballFieldViewController: UIViewController, UITextFieldDelegate {
+class FootballFieldViewController: UIViewController, UITextFieldDelegate, SchemePickerDelegate {
 
     
     // MARK: - Outlets:
@@ -46,12 +46,15 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet private weak var secondTeamSchemeNameInputBottomConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var firstTeamLabel: UILabel!
+    @IBOutlet weak var secondTeamLabel: UILabel!
     
     // MARK: - Properties:
     
     private let maxPlayersInARow = 5.0
     
-    private let defaultTeam = TeamEntity(by: .s1432)
+    private let topDefaultTeam = TeamEntity(by: TeamSchemeType.allCases[Int.random(in: TeamSchemeType.allCases.indices)])
+    private let bottomDefaultTeam = TeamEntity(by: TeamSchemeType.allCases[Int.random(in: TeamSchemeType.allCases.indices)])
     
     private(set) var teamAtTheTop    : [PlayerCircleView]!
     private(set) var teamAtTheBottom : [PlayerCircleView]!
@@ -68,54 +71,46 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
     // MARK: - Actions:
     
     @IBAction func schemeButtonTouched(_ sender: UIButton) {
-        sender.isHidden = true
-        if sender == firstTeamSchemeButton {
-            show(firstTeamSchemeInputTextField, animated: true)
-        } else {
-            show(secondTeamSchemeInputTextField, animated: true)
-        }
-    }
-    
-    @objc private func cancelNumberPad() {
-        dismiss(activeTextField)
-    }
-    
-    @objc private func doneWithNumberPad() {
-        changeSchemeAccordingTo(inputtedText: activeTextField.text, atThe: editingTeameSide)
+       
+        let storyboard = UIStoryboard(name: "SchemePopupViewController", bundle: nil)
+        let popupViewController = storyboard.instantiateViewController(withIdentifier: "SchemePopupViewController") as! SchemePopupViewController
         
-        dismiss(activeTextField)
+        popupViewController.delegate = self
+        
+        if sender == firstTeamSchemeButton {
+            editingTeameSide = .top
+            popupViewController.configure(with: TeamSchemeType.allCases, selected: topDefaultTeam.scheme)
+        } else {
+            popupViewController.configure(with: TeamSchemeType.allCases, selected: bottomDefaultTeam.scheme)
+            editingTeameSide = .bottom
+        }
+        
+        self.addChild(popupViewController)
+        popupViewController.view.frame = self.view.frame
+        self.view.addSubview(popupViewController.view)
+        popupViewController.didMove(toParent: self)
     }
-    
     
     // MARK: - Lifecycle of FootballFieldViewController:
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupViewResizerOnKeyboardShown()
-        
-        setupKeyboardToolbar(for: firstTeamSchemeInputTextField)
-        setupKeyboardToolbar(for: secondTeamSchemeInputTextField)
-        
         footballFieldView.footballFieldManager = footballFieldManager
-        
         
         circleDiameter = view.frame.width / CGFloat(maxPlayersInARow * 3 )
         controlsFontSize = circleDiameter * 0.5
         
-        firstTeamSchemeInputTextField.font = UIFont.systemFont(ofSize: controlsFontSize,  weight: .thin)
-        secondTeamSchemeInputTextField.font = UIFont.systemFont(ofSize: controlsFontSize,  weight: .thin)
-        
-        changeTeamSchemeControlsAtributedText(on: .top, using: defaultTeam)
-        changeTeamSchemeControlsAtributedText(on: .bottom, using: defaultTeam)
+        changeTeamSchemeControlsAtributedText(on: .top, using: topDefaultTeam)
+        changeTeamSchemeControlsAtributedText(on: .bottom, using: bottomDefaultTeam)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        teamAtTheTop = getFootballTeamCircleViewsWith(model: defaultTeam, atThe: .top)
+        teamAtTheTop = getFootballTeamCircleViewsWith(model: topDefaultTeam, atThe: .top)
         
-        teamAtTheBottom = getFootballTeamCircleViewsWith(model: defaultTeam, atThe: .bottom)
+        teamAtTheBottom = getFootballTeamCircleViewsWith(model: bottomDefaultTeam, atThe: .bottom)
         
         teamAtTheTop.forEach() { footballFieldView.addSubview($0)}
         teamAtTheBottom.forEach() { footballFieldView.addSubview($0)}
@@ -126,14 +121,18 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
     
     private func changeTeamSchemeControlsAtributedText(on side: TeamSide, using model: TeamEntity) {
         
-        let buttonTitleFont = UIFont.systemFont(ofSize: controlsFontSize,  weight: .thin)
-        let buttonTitleAtributedString = NSAttributedString(string: model.scheme.buttonTitle, attributes: [.font : buttonTitleFont])
+        let titleFont = UIFont.systemFont(ofSize: controlsFontSize,  weight: .thin)
+        
+        let buttonTitleAtributedString = NSAttributedString(string: model.scheme.buttonTitle, attributes: [.font : titleFont])
+        let teamNameTitleAtributedString = NSAttributedString(string: model.name, attributes: [.font : titleFont])
         
         switch side {
         case .top:
             firstTeamSchemeButton.setAttributedTitle(buttonTitleAtributedString, for: .normal)
+            firstTeamLabel.attributedText = teamNameTitleAtributedString
         case .bottom:
             secondTeamSchemeButton.setAttributedTitle(buttonTitleAtributedString, for: .normal)
+            secondTeamLabel.attributedText = teamNameTitleAtributedString
         }
     }
     
@@ -191,131 +190,34 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate {
         return (length - lengthOfAllCirclesVertical) / amountOfVerticalPaddings
     }
     
-    private func show(_ textField: UITextField, animated: Bool) {
-        textField.isHidden = false
-        UIView.animate(withDuration: animated ? 0.3 : 0, animations: {
-            textField.alpha = 1.0
-            textField.becomeFirstResponder()
-        })
-    }
-    
-    private func dismiss(_ textField: UITextField) {
+    private func changeSchemeAccordingTo(_ scheme: TeamSchemeType, atThe side: TeamSide) {
         
-        clearTextFields()
+        var team: TeamEntity
         
-        hideTextField(textField, animated: true)
-        
-        showButtonResponsibleFor(textField)
-        
-        textField.resignFirstResponder()
-    }
-    
-    private func hideTextField(_ textField: UITextField, animated: Bool) {
-        textField.isHidden = true
-        UIView.animate(withDuration: animated ? 0.3 : 0, animations: {
-            textField.alpha = 0.0
-            textField.resignFirstResponder()
-        })
-    }
-    
-    private func clearTextFields() {
-        firstTeamSchemeInputTextField.text = ""
-        secondTeamSchemeInputTextField.text = ""
-    }
-    
-    private func showButtonResponsibleFor(_ textField: UITextField) {
-        if textField == firstTeamSchemeInputTextField {
-            firstTeamSchemeButton.isHidden = false
-        } else {
-            secondTeamSchemeButton.isHidden = false
-        }
-    }
-    
-    private func changeSchemeAccordingTo(inputtedText: String?, atThe side: TeamSide) {
-        if let text = inputtedText,
-            let shemeType = TeamSchemeType(rawValue: text) {
+        switch side {
+        case .top:
+            team = topDefaultTeam
+            team.scheme = scheme
+            teamAtTheTop.forEach() { $0.removeFromSuperview()}
+            teamAtTheTop = getFootballTeamCircleViewsWith(model: team, atThe: side)
+            teamAtTheTop.forEach() { self.footballFieldView.addSubview($0)}
             
-            let team = TeamEntity(by: shemeType)
-            changeTeamSchemeControlsAtributedText(on: side, using: team)
-            
-            switch side {
-            case .top:
-                teamAtTheTop.forEach() { $0.removeFromSuperview()}
-                teamAtTheTop = getFootballTeamCircleViewsWith(model: TeamEntity(by: shemeType), atThe: side)
-                teamAtTheTop.forEach() { self.footballFieldView.addSubview($0)}
-                
-            case .bottom:
-                teamAtTheBottom.forEach() { $0.removeFromSuperview()}
-                teamAtTheBottom = getFootballTeamCircleViewsWith(model: TeamEntity(by: shemeType), atThe: side)
-                teamAtTheBottom.forEach() { self.footballFieldView.addSubview($0)}
-            }
+        case .bottom:
+            team = bottomDefaultTeam
+            team.scheme = scheme
+            teamAtTheBottom.forEach() { $0.removeFromSuperview()}
+            teamAtTheBottom = getFootballTeamCircleViewsWith(model: team, atThe: side)
+            teamAtTheBottom.forEach() { self.footballFieldView.addSubview($0)}
         }
+        
+        changeTeamSchemeControlsAtributedText(on: side, using: team)
     }
     
-    private func setupKeyboardToolbar(for textField: UITextField) {
-        let keyboardToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
-        
-        keyboardToolbar.barStyle = .blackOpaque
-        keyboardToolbar.tintColor = .white
-        keyboardToolbar.items = [UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(cancelNumberPad)),
-                                 UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-                                 UIBarButtonItem(title: "Apply", style: .done, target: self, action: #selector(doneWithNumberPad))]
-        keyboardToolbar.sizeToFit()
-        
-        textField.inputAccessoryView = keyboardToolbar
-    }
     
-    // MARK: - UITextFieldDelegate:
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        if textField != firstTeamSchemeInputTextField {
-            editingTeameSide = .bottom
-            dismiss(firstTeamSchemeInputTextField)
-        } else {
-            editingTeameSide = .top
-            dismiss(secondTeamSchemeInputTextField)
-            makeConstant(8, for: secondTeamSchemeNameInputBottomConstraint, animated: false)
-        }
-        activeTextField = textField
-        
-        textField.becomeFirstResponder()
-    }
+    // MARK: - SchemePickerDelegate:
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
-        changeSchemeAccordingTo(inputtedText: textField.text, atThe: editingTeameSide)
-        
-        dismiss(textField)
-        
-        return true
-    }
-    
-    // MARK: - Keyboard function
-    
-    func setupViewResizerOnKeyboardShown() {
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-    }
-    
-    private func makeConstant(_ newConstant: CGFloat, for constraint: NSLayoutConstraint, animated: Bool) {
-        if animated {
-            UIView.animate(withDuration: 1, animations: {
-                constraint.constant = newConstant
-            })
-        } else {
-            constraint.constant = newConstant
-        }
-    }
-    
-    @objc func adjustForKeyboard(notification: Notification) {
-        if secondTeamSchemeInputTextField.isEditing {
-            if notification.name == UIResponder.keyboardWillHideNotification {
-                makeConstant(8, for: secondTeamSchemeNameInputBottomConstraint, animated: false)
-            } else {
-                let keyboardScreenEndFrame = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
-                makeConstant(keyboardScreenEndFrame.height, for: secondTeamSchemeNameInputBottomConstraint, animated: true)
-            }
-        }
+    func pickerView(_ pickerView: UIPickerView, picked scheme: TeamSchemeType) {
+        changeSchemeAccordingTo(scheme, atThe: editingTeameSide)
     }
     
 }

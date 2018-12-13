@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum TeamSchemeType: String {
+enum TeamSchemeType: String, CaseIterable {
     case s442  = "442"
     case s433  = "433"
     case s451  = "451"

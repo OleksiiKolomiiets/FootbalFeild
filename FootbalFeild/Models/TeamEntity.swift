@@ -13,10 +13,6 @@ class TeamEntity {
     
     // MARK: - Properties:
     
-    private let playerFirstNames = ["Alex", "Jhon", "Kurt", "Nick", "Bran"]
-    private let playerLastNames  = ["Stone", "Storm", "Flower", "Snow"]
-    private let teamNames        = ["KIEV", "LVIV", "DNIPRO", "VINNYTSIA"]
-    
     public var scheme : TeamSchemeType
     public let name   : String
     
@@ -36,7 +32,10 @@ class TeamEntity {
             guard let position = PlayerPostionType(rawValue: positionIndex) else { continue }
             
             for _ in 0 ..< positionCount {
-                let player = PlayerEntity(number: playerIndex, position: position, firstName: "\(playerFirstNames[Int.random(in: playerFirstNames.indices)])", lastName: "\(playerLastNames[Int.random(in: playerLastNames.indices)])")
+                let player = PlayerEntity(number: playerIndex,
+                                          position: position,
+                                          firstName: NameGenerator.getPlayerFirstName(),
+                                          lastName: NameGenerator.getPlayerLastName())
                 players.append(player)
                 playerIndex += 1
             }
@@ -49,7 +48,7 @@ class TeamEntity {
     
     init(by scheme: TeamSchemeType) {
         self.scheme = scheme
-        self.name = "FC \(teamNames[Int.random(in: teamNames.indices)])"
+        self.name = NameGenerator.getTeamName()
     }
     
 }

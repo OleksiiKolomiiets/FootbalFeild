@@ -16,7 +16,9 @@ class SchemePopupViewController: UIViewController, UIPickerViewDataSource, UIPic
 
     // MARK: - Outlets:
     
+    @IBOutlet private weak var popupView: UIView!
     @IBOutlet private weak var schemePickerView: UIPickerView!
+    @IBOutlet weak var blurredPopupView: UIVisualEffectView!
     
     
     // MARK: Properties:
@@ -32,6 +34,12 @@ class SchemePopupViewController: UIViewController, UIPickerViewDataSource, UIPic
         super.viewDidLoad()
         
         schemePickerView.selectRow(selectedSchemeIndex, inComponent: 0, animated: false)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        blurredPopupView.layer.cornerRadius = 15
     }
     
     
@@ -55,8 +63,11 @@ class SchemePopupViewController: UIViewController, UIPickerViewDataSource, UIPic
     
     //MARK: UIPickerViewDelegate:
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return schemes?[row].buttonTitle
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        let titleFont = UIFont.systemFont(ofSize: 140, weight: .thin)
+        let titleAtributedString = NSAttributedString(string: "\(schemes![row].buttonTitle)", attributes: [.font : titleFont])
+        
+        return titleAtributedString
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {

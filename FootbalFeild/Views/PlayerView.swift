@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PlayerCircleView: UIView {
+class PlayerView: UIView {
     
     
     // MARK: - Outlets:
@@ -23,11 +23,13 @@ class PlayerCircleView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         initUsingXIB()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        
         initUsingXIB()
     }
     
@@ -36,14 +38,23 @@ class PlayerCircleView: UIView {
         initSubviews()
     }
     
+    // MARK: Lifecycle methods of PlayerView:
     
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        
+        circleView.layer.cornerRadius = circleView.bounds.width / 2
+        let playerNumberFontSize = circleView.bounds.width / 2
+        playerNumberLabel.font = UIFont.systemFont(ofSize: playerNumberFontSize)
+    }
+
     // MARK: - Functions:
     
-    public func configureWith(playerNumber: NSAttributedString, teamColor: UIColor, playerName: NSAttributedString) {
-        playerNumberLabel.attributedText = playerNumber
+    public func configureWith(_ model: PlayerEntity, teamColor: UIColor) {
+        playerNumberLabel.text = "\(model.number)"
         circleView.backgroundColor = teamColor
-        playerNameLabel.attributedText = playerName
-        circleView.layer.cornerRadius = contentView.frame.width / 2
+        playerNameLabel.text = "\(model.fullName)"
+       
         playerNumberLabel.textColor = teamColor == .black ? .white : .black
     }
 

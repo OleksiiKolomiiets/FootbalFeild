@@ -15,7 +15,7 @@ protocol FootballFieldManagable {
 }
 
 fileprivate class FootballFieldSettings {
-    static let kStripeCount = 19
+    static let kStripeCount = 15
     static let kFieldColor  = #colorLiteral(red: 0.2691331506, green: 0.3710823655, blue: 0.04835906625, alpha: 1)
     
     static let kLineWidthCoefficient = CGFloat(5)
@@ -53,10 +53,12 @@ class FootballFieldManager: FootballFieldManagable {
     // MARK: - Computed properies:
     
     private var fieldRect: CGRect {
+        guard let delegate = delegate else { return CGRect(x: 0, y: 0, width: 0, height: 0) }
+        
         if rect == nil {
-            rect = CGRect(origin: fieldBoundsOrigin, size: fieldSize)
+            rect = delegate.bounds
         }
-        return CGRect(origin: fieldBoundsOrigin, size: fieldSize)
+        return delegate.bounds
     }
     
     private var lineWidth: CGFloat {
@@ -71,34 +73,8 @@ class FootballFieldManager: FootballFieldManagable {
         return delegate.frame.height / CGFloat(FootballFieldSettings.kStripeCount * 2)
     }
     
-    private var fieldInsets: CGFloat {
-        return lineWidth / 2
-    }
-    
-    private var fieldSize: CGSize {
-        guard let delegate = delegate else {
-            return CGSize(width: 0, height: 0)
-        }
-        
-        let width = delegate.bounds.width - CGFloat(2) * fieldInsets
-        let length = delegate.bounds.height - CGFloat(2) * fieldInsets
-        
-        return CGSize(width: width, height: length)
-    }
-    
-    private var fieldBoundsOrigin: CGPoint {
-        guard let delegate = delegate else {
-            return CGPoint(x: 0, y: 0)
-        }
-        
-        let fieldX = delegate.bounds.origin.x + fieldInsets
-        let fieldY = delegate.bounds.origin.y + fieldInsets
-        
-        return CGPoint(x: fieldX, y: fieldY)
-    }
-    
     private var centerRadius: CGFloat  {
-        return fieldSize.width * CGFloat(0.15)
+        return fieldRect.size.width * CGFloat(0.15)
     }
     
     
@@ -132,7 +108,7 @@ class FootballFieldManager: FootballFieldManagable {
     }
     
     private var penaltyCenterLength: CGFloat {
-        return fieldRect.height * FootballFieldSettings.kPenaltyCenterLengthCoefficient
+        return fieldRect.width * FootballFieldSettings.kPenaltyCenterLengthCoefficient
     }
     
     
@@ -166,8 +142,8 @@ class FootballFieldManager: FootballFieldManagable {
     private func addFieldCenterLinePath() {
         guard let delegate = delegate else { return }
         
-        let startPoint = CGPoint(x: delegate.bounds.origin.x + fieldInsets, y: delegate.bounds.midY)
-        let endPoint = CGPoint(x: delegate.bounds.width - fieldInsets, y: delegate.bounds.midY)
+        let startPoint = CGPoint(x: delegate.bounds.origin.x, y: delegate.bounds.midY)
+        let endPoint = CGPoint(x: delegate.bounds.width, y: delegate.bounds.midY)
         let singleLine = SingleLine(start: startPoint, end: endPoint)
         
         pathHelper.add(singleLine)

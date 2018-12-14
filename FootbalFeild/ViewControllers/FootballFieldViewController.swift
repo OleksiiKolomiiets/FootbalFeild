@@ -41,30 +41,26 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate, Scheme
     @IBOutlet private weak var firstTeamSchemeButton : UIButton!
     @IBOutlet private weak var secondTeamSchemeButton: UIButton!
     
-    @IBOutlet private weak var firstTeamSchemeInputTextField : UITextField!
-    @IBOutlet private weak var secondTeamSchemeInputTextField: UITextField!
-    
-    @IBOutlet private weak var secondTeamSchemeNameInputBottomConstraint: NSLayoutConstraint!
-    
-    @IBOutlet weak var firstTeamLabel: UILabel!
-    @IBOutlet weak var secondTeamLabel: UILabel!
+    @IBOutlet private weak var firstTeamLabel: UILabel!
+    @IBOutlet private weak var secondTeamLabel: UILabel!
     
     // MARK: - Properties:
     
-    private let maxPlayersInARow = 5.0
+    private let maxPlayersInARow: CGFloat = 5
     
     private let topDefaultTeam = TeamEntity(by: TeamSchemeType.allCases[Int.random(in: TeamSchemeType.allCases.indices)])
     private let bottomDefaultTeam = TeamEntity(by: TeamSchemeType.allCases[Int.random(in: TeamSchemeType.allCases.indices)])
     
-    private(set) var teamAtTheTop    : [PlayerCircleView]!
-    private(set) var teamAtTheBottom : [PlayerCircleView]!
+    private(set) var teamAtTheTop    : [PlayerView]!
+    private(set) var teamAtTheBottom : [PlayerView]!
     
-    private var activeTextField : UITextField!
     private var editingTeameSide: TeamSide!
     
     private var footballFieldManager = FootballFieldManager()
     
-    private var circleDiameter: CGFloat!
+    private var playerViewWidth : CGFloat!
+    private var playerViewHeight: CGFloat!
+    
     private var controlsFontSize: CGFloat!
     
     
@@ -98,15 +94,20 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate, Scheme
         
         footballFieldView.footballFieldManager = footballFieldManager
         
-        circleDiameter = view.frame.width / CGFloat(maxPlayersInARow * 3 )
-        controlsFontSize = circleDiameter * 0.5
         
-        changeTeamSchemeControlsAtributedText(on: .top, using: topDefaultTeam)
+        controlsFontSize = view.frame.height * 0.03
+        
+        changeTeamSchemeControlsAtributedText(on: .top   , using: topDefaultTeam)
         changeTeamSchemeControlsAtributedText(on: .bottom, using: bottomDefaultTeam)
+       
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        playerViewWidth  = (footballFieldView.frame.width - (maxPlayersInARow + 1 ) * 8) / maxPlayersInARow
+        playerViewHeight = (0.5 * footballFieldView.frame.height  - (maxPlayersInARow + 1 ) * 4) / maxPlayersInARow
         
         teamAtTheTop = getFootballTeamCircleViewsWith(model: topDefaultTeam, atThe: .top)
         
@@ -136,45 +137,40 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate, Scheme
         }
     }
     
-    private func getFootballTeamCircleViewsWith(model: TeamEntity, atThe side: TeamSide) -> [PlayerCircleView] {
+    private func getFootballTeamCircleViewsWith(model: TeamEntity, atThe side: TeamSide) -> [PlayerView] {
         
-        var footballTeam: [PlayerCircleView] = []
+        var footballTeam: [PlayerView] = []
         
-        let verticalPadding = getPaddingFor(elements: model.teamMatrix.count, inLine: footballFieldManager.rect.height / 2)
+        let verticalPadding = getPaddingForElements(length: playerViewHeight, amount: model.teamMatrix.count, in: footballFieldManager.rect.height / 2)
         
         for (lineIndex, playersInLine) in model.teamMatrix.enumerated() {
             
-            let horizontalPadding = getPaddingFor(elements: playersInLine.count, inLine: footballFieldManager.rect.width)
+            let horizontalPadding = getPaddingForElements(length: playerViewWidth, amount: playersInLine.count, in: footballFieldManager.rect.width)
             
-            for (indexFirstTeam, player)in playersInLine.enumerated() {
+            for (indexOfPlayer, player)in playersInLine.enumerated() {
                 
-                let fieldMinX = footballFieldManager.rect.minX
-                let lengthOfAddedVerticalCircles = circleDiameter * CGFloat(indexFirstTeam)
-                let lengthOfAddedVerticalPaddings = horizontalPadding * CGFloat(indexFirstTeam + 1)
-                
-                let startX = fieldMinX + lengthOfAddedVerticalCircles + lengthOfAddedVerticalPaddings
-                
-                var fieldMinY: CGFloat
-                if side == .top {
-                    fieldMinY = footballFieldManager.rect.minY
-                } else {
-                    fieldMinY = footballFieldManager.rect.height - circleDiameter
+                var fieldMinX = footballFieldManager.rect.minX
+                if side == .bottom {
+                    fieldMinX = footballFieldManager.rect.width - playerViewWidth
                 }
-                let lengthOfAddedHorizontalCircles = circleDiameter * CGFloat(lineIndex)
+                let lengthOfAddedVerticalCircles = playerViewWidth * CGFloat(indexOfPlayer)
+                let lengthOfAddedVerticalPaddings = horizontalPadding * CGFloat(indexOfPlayer + 1)
+                
+                let startX = fieldMinX + side.indicator * (lengthOfAddedVerticalCircles + lengthOfAddedVerticalPaddings)
+                
+                
+                var fieldMinY = footballFieldManager.rect.minY
+                if side == .bottom {
+                    fieldMinY = footballFieldManager.rect.height - playerViewHeight
+                }
+                let lengthOfAddedHorizontalCircles = playerViewHeight * CGFloat(lineIndex)
                 let lengthOfAddedHorizontalPaddings = verticalPadding * CGFloat(lineIndex + 1)
                 
                 let startY = fieldMinY + side.indicator * (lengthOfAddedHorizontalCircles + lengthOfAddedHorizontalPaddings)
                 
-                let playerCircle = PlayerCircleView(frame: CGRect(x: startX, y: startY, width: circleDiameter, height: circleDiameter + controlsFontSize))
+                let playerCircle = PlayerView(frame: CGRect(x: startX, y: startY, width: playerViewWidth, height: playerViewHeight))
                 
-                let playerNumberFont = UIFont.systemFont(ofSize: controlsFontSize, weight: .thin)
-                
-                let playerNumberAtributedString = NSAttributedString(string: "\(player.number)", attributes: [.font : playerNumberFont])
-                
-                let playerNameFont = UIFont.systemFont(ofSize: controlsFontSize * 0.5, weight: .thin)
-                let playerNameAtributedString = NSAttributedString(string: "\(player.fullName)", attributes: [.font : playerNameFont])
-                
-                playerCircle.configureWith(playerNumber: playerNumberAtributedString, teamColor: side.color, playerName: playerNameAtributedString)
+                playerCircle.configureWith(player, teamColor: side.color)
                 
                 footballTeam.append(playerCircle)
             }
@@ -183,11 +179,11 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate, Scheme
         return footballTeam
     }
     
-    private func getPaddingFor(elements amount: Int, inLine length: CGFloat) -> CGFloat {
-        let lengthOfAllCirclesVertical = circleDiameter * CGFloat(amount)
+    private func getPaddingForElements(length: CGFloat,  amount: Int, in lineLength: CGFloat) -> CGFloat {
+        let lengthOfAllCirclesVertical = length * CGFloat(amount)
         let amountOfVerticalPaddings = CGFloat(amount + 1)
         
-        return (length - lengthOfAllCirclesVertical) / amountOfVerticalPaddings
+        return (lineLength - lengthOfAllCirclesVertical) / amountOfVerticalPaddings
     }
     
     private func changeSchemeAccordingTo(_ scheme: TeamSchemeType, atThe side: TeamSide) {

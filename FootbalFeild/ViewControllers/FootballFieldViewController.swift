@@ -44,6 +44,9 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate, Scheme
     @IBOutlet private weak var firstTeamLabel: UILabel!
     @IBOutlet private weak var secondTeamLabel: UILabel!
     
+    @IBOutlet weak var firstTeamClearButton : UIButton!
+    @IBOutlet weak var secondTeamClearButton: UIButton!
+    
     // MARK: - Properties:
     
     private let maxPlayersInARow: CGFloat = 5
@@ -85,6 +88,14 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate, Scheme
         popupViewController.view.frame = self.view.frame
         self.view.addSubview(popupViewController.view)
         popupViewController.didMove(toParent: self)
+    }
+    
+    @IBAction func clearSchemeButtonTouched(_ sender: UIButton) {
+        if sender == firstTeamClearButton {
+            changeSchemeAccordingTo(.cleared, atThe: .top)
+        } else {
+            changeSchemeAccordingTo(.cleared, atThe: .bottom)
+        }
     }
     
     // MARK: - Lifecycle of FootballFieldViewController:

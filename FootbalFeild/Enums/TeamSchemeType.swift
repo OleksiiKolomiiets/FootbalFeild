@@ -21,6 +21,7 @@ enum TeamSchemeType: String, CaseIterable {
     case s4132 = "4132"
     case s5221 = "5221"
     case s4411 = "4411"
+    case cleared
     
     var teamPositionCounts: [Int] {
         return [goalkeeperCount,
@@ -31,7 +32,10 @@ enum TeamSchemeType: String, CaseIterable {
     }
     
     private var goalkeeperCount: Int {
-        return 1
+        switch self {
+        case .cleared: return 0
+        default: return 1
+        }
     }
     
     private var defenderCount: Int {
@@ -44,6 +48,8 @@ enum TeamSchemeType: String, CaseIterable {
             return 4
         case .s5221:
             return 5
+        case .cleared:
+            return 0
         }
     }
     
@@ -59,6 +65,8 @@ enum TeamSchemeType: String, CaseIterable {
             return 4
         case .s451, .s352:
             return 5
+        case .cleared:
+            return 0
         }
     }
     
@@ -85,15 +93,21 @@ enum TeamSchemeType: String, CaseIterable {
             return 2
         case .s433, .s343:
             return 3
+        case .cleared:
+            return 0
         }
     }
     
     var buttonTitle: String {
-        var title = String()
-        for (index, character) in self.rawValue.enumerated() {
-            let separator = (index != self.rawValue.count - 1) ? "-" : ""
-            title.append("\(character)\(separator)")
+        switch self {
+        case .cleared:
+            return self.rawValue
+        default:
+            return String( (0 ..< self.rawValue.count )
+                .map { String(self.rawValue[String.Index(encodedOffset: $0)]) + "-" }
+                .joined()
+                .prefix(self.rawValue.count  * 2 - 1)
+            )
         }
-        return title
     }
 }

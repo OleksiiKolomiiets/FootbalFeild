@@ -107,7 +107,8 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate, Scheme
         
         
         controlsFontSize = view.frame.height * 0.03
-        
+        firstTeamClearButton.titleLabel?.font = UIFont.systemFont(ofSize: controlsFontSize)
+        secondTeamClearButton.titleLabel?.font = UIFont.systemFont(ofSize: controlsFontSize)
         changeTeamSchemeControlsAtributedText(on: .top   , using: topDefaultTeam)
         changeTeamSchemeControlsAtributedText(on: .bottom, using: bottomDefaultTeam)
        

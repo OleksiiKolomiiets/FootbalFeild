@@ -46,6 +46,24 @@ class PlayerView: UIView {
         circleView.layer.cornerRadius = circleView.bounds.width / 2
         let playerNumberFontSize = circleView.bounds.width / 2
         playerNumberLabel.font = UIFont.systemFont(ofSize: playerNumberFontSize)
+        let longTap = UIPanGestureRecognizer(target: self, action: #selector(dragPlayer(_:)))
+        self.circleView.addGestureRecognizer(longTap)
+    }
+    
+    var distX: CGFloat = 0
+    var distY: CGFloat = 0
+    
+    @objc func dragPlayer(_ gesture: UILongPressGestureRecognizer) {
+        switch gesture.state {
+        case .began:
+            distX = gesture.location(in: self.superview).x - self.frame.origin.x
+            distY = gesture.location(in: self.superview).y - self.frame.origin.y
+        case .changed:
+            self.frame.origin = CGPoint(x: gesture.location(in: self.superview).x - distX,
+                                        y: gesture.location(in: self.superview).y - distY)
+        default:
+            break
+        }
     }
 
     // MARK: - Functions:

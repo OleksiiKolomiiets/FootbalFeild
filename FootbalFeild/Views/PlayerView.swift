@@ -64,6 +64,18 @@ class PlayerView: UIView {
         default:
             break
         }
+        if self.frame.minX < superview!.bounds.minX {
+            self.frame.origin.x = superview!.bounds.minX
+        }
+        if self.frame.minY < superview!.bounds.minY {
+            self.frame.origin.y = superview!.bounds.minY
+        }
+        if self.frame.maxX > superview!.bounds.width {
+            self.frame.origin.x = superview!.bounds.width - self.frame.width
+        }
+        if self.frame.maxY > superview!.bounds.height {
+            self.frame.origin.y = superview!.bounds.height - self.frame.height
+        }
     }
 
     // MARK: - Functions:

@@ -92,9 +92,9 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate, Scheme
     
     @IBAction func clearSchemeButtonTouched(_ sender: UIButton) {
         if sender == firstTeamClearButton {
-            changeSchemeAccordingTo(.cleared, atThe: .top)
+            changeSchemeAccordingTo(.blank, atThe: .top)
         } else {
-            changeSchemeAccordingTo(.cleared, atThe: .bottom)
+            changeSchemeAccordingTo(.blank, atThe: .bottom)
         }
     }
     

@@ -64,17 +64,22 @@ class PlayerView: UIView {
         default:
             break
         }
-        if self.frame.minX < superview!.bounds.minX {
-            self.frame.origin.x = superview!.bounds.minX
+        
+        let circleViewInFieldFrame = convert(circleView.frame, to: superview)
+        let circlePadding = (frame.width - circleViewInFieldFrame.width) / 2
+        let superviewBounds = superview!.bounds
+        
+        if circleViewInFieldFrame.minX < superviewBounds.minX {
+            frame.origin.x = superviewBounds.minX - circlePadding
         }
-        if self.frame.minY < superview!.bounds.minY {
-            self.frame.origin.y = superview!.bounds.minY
+        if circleViewInFieldFrame.minY < superviewBounds.minY {
+            frame.origin.y = superviewBounds.minY
         }
-        if self.frame.maxX > superview!.bounds.width {
-            self.frame.origin.x = superview!.bounds.width - self.frame.width
+        if circleViewInFieldFrame.maxX > superviewBounds.width {
+            frame.origin.x = superviewBounds.width - frame.width + circlePadding
         }
-        if self.frame.maxY > superview!.bounds.height {
-            self.frame.origin.y = superview!.bounds.height - self.frame.height
+        if frame.maxY > superviewBounds.height {
+            frame.origin.y = superviewBounds.height - frame.height
         }
     }
 

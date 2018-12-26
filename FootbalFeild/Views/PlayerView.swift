@@ -19,6 +19,15 @@ class PlayerView: UIView {
     @IBOutlet private weak var playerNameLabel: UILabel!
     
     
+    // MARK: - Variables:
+    
+    public var delegate: PlayerDragDelegate?
+    public var model: PlayerEntity!
+    
+    private var distX: CGFloat = 0
+    private var distY: CGFloat = 0
+    
+    
     // MARK: - Constructors:
     
     override init(frame: CGRect) {
@@ -46,21 +55,24 @@ class PlayerView: UIView {
         circleView.layer.cornerRadius = circleView.bounds.width / 2
         let playerNumberFontSize = circleView.bounds.width / 2
         playerNumberLabel.font = UIFont.systemFont(ofSize: playerNumberFontSize)
-        let longTap = UIPanGestureRecognizer(target: self, action: #selector(dragPlayer(_:)))
-        self.circleView.addGestureRecognizer(longTap)
+        
+        playerNameLabel.font = UIFont.systemFont(ofSize: playerNumberFontSize * 0.75)
+        
+        let panTap = UIPanGestureRecognizer(target: self, action: #selector(dragPlayer(_:)))
+        self.circleView.addGestureRecognizer(panTap)
     }
     
-    var distX: CGFloat = 0
-    var distY: CGFloat = 0
-    
-    @objc func dragPlayer(_ gesture: UILongPressGestureRecognizer) {
+    @objc func dragPlayer(_ gesture: UIPanGestureRecognizer) {
         switch gesture.state {
-        case .began:
+        case .began:            
+            delegate?.startDragPlayerView(self)
             distX = gesture.location(in: self.superview).x - self.frame.origin.x
             distY = gesture.location(in: self.superview).y - self.frame.origin.y
         case .changed:
             self.frame.origin = CGPoint(x: gesture.location(in: self.superview).x - distX,
                                         y: gesture.location(in: self.superview).y - distY)
+        case .ended:
+            delegate?.endDragPlayerView()
         default:
             break
         }
@@ -91,6 +103,9 @@ class PlayerView: UIView {
         playerNameLabel.text = "\(model.fullName)"
        
         playerNumberLabel.textColor = teamColor == .black ? .white : .black
+        UIView.animate(withDuration: 0.1, delay: 0.1, options: .curveEaseInOut, animations: {
+            self.circleView.alpha = 1.0
+        })
     }
 
     private func initSubviews() {

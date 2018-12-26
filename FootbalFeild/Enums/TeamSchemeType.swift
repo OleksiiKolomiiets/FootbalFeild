@@ -32,10 +32,7 @@ enum TeamSchemeType: String, CaseIterable {
     }
     
     private var goalkeeperCount: Int {
-        switch self {
-        case .blank: return 0
-        default: return 1
-        }
+        return self == TeamSchemeType.blank ? 0 : 1
     }
     
     private var defenderCount: Int {

@@ -31,7 +31,12 @@ fileprivate enum TeamSide: Int {
     }
 }
 
-class FootballFieldViewController: UIViewController, UITextFieldDelegate, SchemePickerDelegate {
+protocol PlayerDragDelegate {
+    func startDragPlayerView(_ view: PlayerView)
+    func endDragPlayerView()
+}
+
+class FootballFieldViewController: UIViewController, UITextFieldDelegate, SchemePickerDelegate, PlayerDragDelegate {
 
     
     // MARK: - Outlets:
@@ -44,8 +49,11 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate, Scheme
     @IBOutlet private weak var firstTeamLabel: UILabel!
     @IBOutlet private weak var secondTeamLabel: UILabel!
     
-    @IBOutlet weak var firstTeamClearButton : UIButton!
-    @IBOutlet weak var secondTeamClearButton: UIButton!
+    @IBOutlet private weak var firstTeamClearButton : UIButton!
+    @IBOutlet private weak var secondTeamClearButton: UIButton!
+    
+    @IBOutlet private weak var banchView: UIView!
+    
     
     // MARK: - Properties:
     
@@ -118,8 +126,13 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate, Scheme
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        playerViewWidth  = (footballFieldView.frame.width - (maxPlayersInARow + 1 ) * 8) / maxPlayersInARow
-        playerViewHeight = (0.5 * footballFieldView.frame.height  - (maxPlayersInARow + 1 ) * 4) / maxPlayersInARow
+        playerViewWidth  = footballFieldView.frame.width / maxPlayersInARow
+        playerViewHeight = 0.5 * footballFieldView.frame.height / maxPlayersInARow
+        
+        UIView.animate(withDuration: 0.5, delay: 1.0, options: .curveEaseInOut, animations: {
+            self.banchView.isHidden = self.banchView.frame.width < self.playerViewWidth
+            self.banchView.alpha = 1.0
+        })
         
         teamAtTheTop = getFootballTeamCircleViewsWith(model: topDefaultTeam, atThe: .top)
         
@@ -159,29 +172,12 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate, Scheme
             
             let horizontalPadding = getPaddingForElements(length: playerViewWidth, amount: playersInLine.count, in: footballFieldManager.rect.width)
             
-            for (indexOfPlayer, player)in playersInLine.enumerated() {
+            for (indexOfPlayer, player) in playersInLine.enumerated() {
+               
+                let playerViewOrigin = getStratPointFor(lineIndex, indexOfPlayer, side, padding: (h: horizontalPadding, v: verticalPadding))
+                let playerCircle = PlayerView(frame: CGRect(origin: playerViewOrigin, size: CGSize(width: playerViewWidth, height: playerViewHeight)))
                 
-                var fieldMinX = footballFieldManager.rect.minX
-                if side == .bottom {
-                    fieldMinX = footballFieldManager.rect.width - playerViewWidth
-                }
-                let lengthOfAddedVerticalCircles = playerViewWidth * CGFloat(indexOfPlayer)
-                let lengthOfAddedVerticalPaddings = horizontalPadding * CGFloat(indexOfPlayer + 1)
-                
-                let startX = fieldMinX + side.indicator * (lengthOfAddedVerticalCircles + lengthOfAddedVerticalPaddings)
-                
-                
-                var fieldMinY = footballFieldManager.rect.minY
-                if side == .bottom {
-                    fieldMinY = footballFieldManager.rect.height - playerViewHeight
-                }
-                let lengthOfAddedHorizontalCircles = playerViewHeight * CGFloat(lineIndex)
-                let lengthOfAddedHorizontalPaddings = verticalPadding * CGFloat(lineIndex + 1)
-                
-                let startY = fieldMinY + side.indicator * (lengthOfAddedHorizontalCircles + lengthOfAddedHorizontalPaddings)
-                
-                let playerCircle = PlayerView(frame: CGRect(x: startX, y: startY, width: playerViewWidth, height: playerViewHeight))
-                
+                playerCircle.delegate = self
                 playerCircle.configureWith(player, teamColor: side.color)
                 
                 footballTeam.append(playerCircle)
@@ -189,6 +185,18 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate, Scheme
         }
         
         return footballTeam
+    }
+    
+    private func getStratPointFor(_ lineIndex: Int, _ playerIndex: Int, _ side: TeamSide, padding: (h: CGFloat, v: CGFloat)) -> CGPoint {
+        return CGPoint(x: getCoordinate(for: playerIndex, side,
+                                        with: padding.h, min: footballFieldManager.rect.minX, max: footballFieldManager.rect.width, size: playerViewWidth),
+                       y: getCoordinate(for: lineIndex  , side,
+                                        with: padding.v, min: footballFieldManager.rect.minY, max: footballFieldManager.rect.height, size: playerViewHeight))
+    }
+    
+    private func getCoordinate(for index: Int, _ side: TeamSide, with padding: CGFloat, min: CGFloat, max: CGFloat, size: CGFloat) -> CGFloat {
+        let fieldMin = side == .bottom ? max - size : min
+        return fieldMin + side.indicator * (size * CGFloat(index) + padding * CGFloat(index + 1))
     }
     
     private func getPaddingForElements(length: CGFloat,  amount: Int, in lineLength: CGFloat) -> CGFloat {
@@ -228,4 +236,25 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate, Scheme
         changeSchemeAccordingTo(scheme, atThe: editingTeameSide)
     }
     
+    // MARK: - PlayerDragDelegate:
+    
+    func startDragPlayerView(_ view: PlayerView) {
+        footballFieldView.bringSubviewToFront(view)
+        
+        teamAtTheTop.forEach {
+            if $0 != view {
+                $0.alpha = 0.5
+            }
+        }
+        teamAtTheBottom.forEach {
+            if $0 != view {
+                $0.alpha = 0.5
+            }
+        }
+    }
+    
+    func endDragPlayerView() {
+        teamAtTheTop.forEach { $0.alpha = 1.0 }
+        teamAtTheBottom.forEach { $0.alpha = 1.0 }
+    }
 }

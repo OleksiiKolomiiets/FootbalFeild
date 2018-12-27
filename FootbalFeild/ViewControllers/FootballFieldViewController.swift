@@ -52,8 +52,6 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate, Scheme
     @IBOutlet private weak var firstTeamClearButton : UIButton!
     @IBOutlet private weak var secondTeamClearButton: UIButton!
     
-    @IBOutlet private weak var banchView: UIView!
-    
     
     // MARK: - Properties:
     
@@ -128,11 +126,6 @@ class FootballFieldViewController: UIViewController, UITextFieldDelegate, Scheme
         
         playerViewWidth  = footballFieldView.frame.width / maxPlayersInARow
         playerViewHeight = 0.5 * footballFieldView.frame.height / maxPlayersInARow
-        
-        UIView.animate(withDuration: 0.5, delay: 1.0, options: .curveEaseInOut, animations: {
-            self.banchView.isHidden = self.banchView.frame.width < self.playerViewWidth
-            self.banchView.alpha = 1.0
-        })
         
         teamAtTheTop = getFootballTeamCircleViewsWith(model: topDefaultTeam, atThe: .top)
         

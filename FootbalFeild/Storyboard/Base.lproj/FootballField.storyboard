@@ -76,18 +76,12 @@
                                     <action selector="clearSchemeButtonTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TtI-23-MjY"/>
                                 </connections>
                             </button>
-                            <view hidden="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hNo-Xu-5D4">
-                                <rect key="frame" x="0.0" y="68" width="139.5" height="621"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.26913315059999998" green="0.37108236550000001" blue="0.048359066249999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="sjS-lB-UEU" firstAttribute="bottom" secondItem="JP4-Di-EPa" secondAttribute="bottom" id="41O-eg-ori"/>
-                            <constraint firstItem="hNo-Xu-5D4" firstAttribute="height" secondItem="6xg-dB-yTJ" secondAttribute="height" multiplier="1/2" id="68P-RK-90b"/>
                             <constraint firstItem="sjS-lB-UEU" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Lok-7s-ms4" secondAttribute="trailing" constant="8" symbolic="YES" id="Amd-pZ-RBt"/>
                             <constraint firstItem="QA2-Q1-Sxt" firstAttribute="top" secondItem="Ezd-5Q-ZKt" secondAttribute="top" id="BHa-zY-Ks2"/>
-                            <constraint firstItem="hNo-Xu-5D4" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="BXS-hG-90w"/>
                             <constraint firstItem="QA2-Q1-Sxt" firstAttribute="leading" secondItem="Ezd-5Q-ZKt" secondAttribute="trailing" id="CVM-1n-Dge"/>
                             <constraint firstItem="JP4-Di-EPa" firstAttribute="top" secondItem="6xg-dB-yTJ" secondAttribute="bottom" constant="16" id="DKg-4B-Ngq"/>
                             <constraint firstItem="QA2-Q1-Sxt" firstAttribute="bottom" secondItem="Ezd-5Q-ZKt" secondAttribute="bottom" id="RXw-kz-Ext"/>
@@ -99,10 +93,8 @@
                             <constraint firstItem="JP4-Di-EPa" firstAttribute="leading" secondItem="6xg-dB-yTJ" secondAttribute="leading" id="el1-lx-SyT"/>
                             <constraint firstItem="QA2-Q1-Sxt" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="8" id="hsc-Va-eHr"/>
                             <constraint firstItem="JP4-Di-EPa" firstAttribute="top" secondItem="Lok-7s-ms4" secondAttribute="top" id="jcb-vX-97Y"/>
-                            <constraint firstItem="6xg-dB-yTJ" firstAttribute="leading" secondItem="hNo-Xu-5D4" secondAttribute="trailing" id="jzL-lq-6My"/>
                             <constraint firstItem="JP4-Di-EPa" firstAttribute="bottom" secondItem="Lok-7s-ms4" secondAttribute="bottom" id="mds-qC-Dzt"/>
                             <constraint firstItem="Ezd-5Q-ZKt" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="5tg-W9-jCp" secondAttribute="trailing" constant="8" symbolic="YES" id="rCI-S8-WiJ"/>
-                            <constraint firstItem="6xg-dB-yTJ" firstAttribute="top" secondItem="hNo-Xu-5D4" secondAttribute="top" id="rzs-2i-ON4"/>
                             <constraint firstItem="QA2-Q1-Sxt" firstAttribute="bottom" secondItem="5tg-W9-jCp" secondAttribute="bottom" id="sG8-go-5lU"/>
                             <constraint firstItem="sjS-lB-UEU" firstAttribute="trailing" secondItem="6xg-dB-yTJ" secondAttribute="trailing" id="vk2-wq-I8H"/>
                             <constraint firstItem="QA2-Q1-Sxt" firstAttribute="trailing" secondItem="6xg-dB-yTJ" secondAttribute="trailing" id="weP-5e-IB8"/>
@@ -112,7 +104,6 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="banchView" destination="hNo-Xu-5D4" id="a2l-c8-WSx"/>
                         <outlet property="firstTeamClearButton" destination="Ezd-5Q-ZKt" id="AyC-8c-b54"/>
                         <outlet property="firstTeamLabel" destination="5tg-W9-jCp" id="aIx-f1-p0d"/>
                         <outlet property="firstTeamSchemeButton" destination="QA2-Q1-Sxt" id="QSW-ii-5ta"/>

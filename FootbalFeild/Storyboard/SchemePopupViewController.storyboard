@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="uPt-n0-kGZ">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Scheme Popup View Controller-->
+        <scene sceneID="mhD-cb-ATg">
+            <objects>
+                <viewController storyboardIdentifier="SchemePopupViewController" id="uPt-n0-kGZ" customClass="SchemePopupViewController" customModule="FootbalField" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="J7f-xM-hsS">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hmk-fP-pKH">
+                                <rect key="frame" x="94" y="240" width="187.5" height="187.5"/>
+                                <subviews>
+                                    <visualEffectView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="52l-RV-kE7">
+                                        <rect key="frame" x="0.0" y="0.0" width="187.5" height="187.5"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="4bz-a0-06i">
+                                            <rect key="frame" x="0.0" y="0.0" width="187.5" height="187.5"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" text="Choose the scheme:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rk9-j3-uL3">
+                                                    <rect key="frame" x="0.0" y="0.0" width="187.5" height="19"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="16"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xGB-hY-Hc6">
+                                                    <rect key="frame" x="0.0" y="19" width="187.5" height="168.5"/>
+                                                    <connections>
+                                                        <outlet property="dataSource" destination="uPt-n0-kGZ" id="hie-IN-cM2"/>
+                                                        <outlet property="delegate" destination="uPt-n0-kGZ" id="r0m-z2-HGR"/>
+                                                    </connections>
+                                                </pickerView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="rk9-j3-uL3" firstAttribute="centerX" secondItem="4bz-a0-06i" secondAttribute="centerX" id="A79-7f-qQj"/>
+                                                <constraint firstItem="rk9-j3-uL3" firstAttribute="leading" secondItem="xGB-hY-Hc6" secondAttribute="leading" id="dJf-Ni-r2d"/>
+                                                <constraint firstAttribute="trailing" secondItem="rk9-j3-uL3" secondAttribute="trailing" id="fVZ-dO-2Gb"/>
+                                                <constraint firstItem="xGB-hY-Hc6" firstAttribute="centerX" secondItem="4bz-a0-06i" secondAttribute="centerX" id="i6D-Mj-nX9"/>
+                                                <constraint firstItem="rk9-j3-uL3" firstAttribute="leading" secondItem="4bz-a0-06i" secondAttribute="leading" id="k9z-su-ufr"/>
+                                                <constraint firstItem="xGB-hY-Hc6" firstAttribute="top" secondItem="rk9-j3-uL3" secondAttribute="bottom" id="qep-9T-DXG"/>
+                                                <constraint firstItem="rk9-j3-uL3" firstAttribute="trailing" secondItem="xGB-hY-Hc6" secondAttribute="trailing" id="sQQ-uE-6my"/>
+                                                <constraint firstItem="rk9-j3-uL3" firstAttribute="top" secondItem="4bz-a0-06i" secondAttribute="top" id="uZ6-nZ-Guk"/>
+                                                <constraint firstAttribute="bottom" secondItem="xGB-hY-Hc6" secondAttribute="bottom" id="wsR-wn-RgZ"/>
+                                            </constraints>
+                                        </view>
+                                        <blurEffect style="extraLight"/>
+                                    </visualEffectView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="hmk-fP-pKH" secondAttribute="height" multiplier="187:187" id="Bpv-Y2-p84"/>
+                                    <constraint firstAttribute="trailing" secondItem="52l-RV-kE7" secondAttribute="trailing" id="JvU-WJ-J6f"/>
+                                    <constraint firstItem="52l-RV-kE7" firstAttribute="leading" secondItem="hmk-fP-pKH" secondAttribute="leading" id="L9o-TE-qg0"/>
+                                    <constraint firstAttribute="bottom" secondItem="52l-RV-kE7" secondAttribute="bottom" id="LRJ-S1-ze6"/>
+                                    <constraint firstItem="52l-RV-kE7" firstAttribute="top" secondItem="hmk-fP-pKH" secondAttribute="top" id="UGK-mF-XI7"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="hmk-fP-pKH" firstAttribute="centerX" secondItem="J7f-xM-hsS" secondAttribute="centerX" id="MVJ-De-ifF"/>
+                            <constraint firstItem="hmk-fP-pKH" firstAttribute="centerY" secondItem="J7f-xM-hsS" secondAttribute="centerY" id="O2Z-70-oFd"/>
+                            <constraint firstItem="hmk-fP-pKH" firstAttribute="width" secondItem="J7f-xM-hsS" secondAttribute="width" multiplier="1/2" id="m3r-fP-EtY"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="HLN-9A-ljX"/>
+                    </view>
+                    <connections>
+                        <outlet property="blurredPopupView" destination="52l-RV-kE7" id="dy0-aY-Be2"/>
+                        <outlet property="popupView" destination="hmk-fP-pKH" id="eRs-CO-Two"/>
+                        <outlet property="schemePickerView" destination="xGB-hY-Hc6" id="Thj-Ib-HZJ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ney-5T-nfR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="148" y="115.59220389805098"/>
+        </scene>
+    </scenes>
+</document>

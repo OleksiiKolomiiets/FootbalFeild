@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  FootbalFeild
+//  FootbalField
 //
 //  Created by Oleksii  Kolomiiets on 11/30/18.
 //  Copyright © 2018 Oleksii  Kolomiets. All rights reserved.

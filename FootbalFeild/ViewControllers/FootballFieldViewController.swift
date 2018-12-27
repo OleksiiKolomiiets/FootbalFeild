@@ -1,6 +1,6 @@
 //
 //  FootballFieldViewController.swift
-//  FootbalFeild
+//  FootbalField
 //
 //  Created by Oleksii  Kolomiiets on 11/30/18.
 //  Copyright © 2018 Oleksii  Kolomiets. All rights reserved.
@@ -8,198 +8,246 @@
 
 import UIKit
 
-fileprivate class FootballFieldViewControllerSettings {
-    static let kStripeCount = 19
-    static let kFieldColor  = #colorLiteral(red: 0.2691331506, green: 0.3710823655, blue: 0.04835906625, alpha: 1)
-}
-class FootballFieldView: UIView {
-    
-    // MARK: - Properies:
-    
-    // MARK: Constatnts:
-    
-    let paddingTopAndBottom: CGFloat = 8
-    let paddingLeftAndRight: CGFloat = 32
-    
-    // MARK: Variables:
-    
-    var fieldWidth: CGFloat {
-        return bounds.width - CGFloat(2) * paddingLeftAndRight
-    }
-    var fieldLength: CGFloat {
-        return bounds.height - CGFloat(2) * (paddingTopAndBottom + self.bounds.height / CGFloat(FootballFieldViewControllerSettings.kStripeCount))
-    }
-    var centrRadius: CGFloat  {
-        return fieldWidth * CGFloat(0.15)
-    }
-    
-    override func draw(_ rect: CGRect) {
-        
-        let path = UIBezierPath()
-        
-        let fieldRectangle = CGRect(x: self.bounds.origin.x + paddingLeftAndRight,
-                                    y: self.bounds.origin.y + paddingTopAndBottom + self.bounds.height / CGFloat(FootballFieldViewControllerSettings.kStripeCount),
-                                    width: fieldWidth,
-                                    height: fieldLength)
-        drawPathFor(rect: fieldRectangle, in: path)
-       
-        
-        
-        // draw center circle
-        drawFieldCenterCircle(in: path)
-        
-        // draw center line
-        drawFieldCenterLine(in: path)
-        
-        
-        let shapeLayer = CAShapeLayer()
-        shapeLayer.path = path.cgPath
-        shapeLayer.strokeColor = UIColor.white.cgColor
-        shapeLayer.fillRule = .evenOdd
-        shapeLayer.fillColor = UIColor.clear.cgColor
-        shapeLayer.lineWidth = 2
-        
-        self.layer.addSublayer(shapeLayer)
-        
-//        self.drawLine(startX: 8, toEndingX: textStartX - 8, startingY: midY, toEndingY: midY, ofColor: UIColor.white, widthOfLine: 1, inView: self)
-//        self.drawLine(startX: textEndX + 8, toEndingX: Int(self.frame.maxX) - 8, startingY: midY, toEndingY: midY, ofColor: UIColor.white, widthOfLine: 2, inView: self)
-        
-    }
-    
-    private func drawFieldCenterLine(in path: UIBezierPath) {
-        let startPoint = CGPoint(x: self.bounds.origin.x + paddingLeftAndRight,
-                                 y: self.bounds.midY)
-        let endPoint = CGPoint(x: self.bounds.width - paddingLeftAndRight,
-                               y: self.bounds.midY)
-        
-        drawSingleLine(from: startPoint, to: endPoint, in: path)
-    }
-    
-    private func drawSingleLine(from start: CGPoint, to end: CGPoint, in path: UIBezierPath) {
-        path.move(to: start)
-        path.addLine(to: end)
-        path.close()
-    }
-    
-    private func drawPathFor(rect: CGRect, in path: UIBezierPath) {
-        // left top corner
-        let topLeftCorner = rect.origin
-        path.move(to: rect.origin)
-        
-        // right top corner
-        path.addLine(to: CGPoint(x: rect.maxX, y: rect.origin.y))
-        
-        // right bottom corner
-        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
-        
-        // left bottom corner
-        path.addLine(to: CGPoint(x: rect.origin.x,
-                                 y: rect.maxY))
-        
-        path.close()
-    }
-    
-    private func drawFieldCenterCircle(in path: UIBezierPath) {
-        path.move(to: CGPoint(x: self.bounds.midX + centrRadius,
-                              y: self.bounds.midY))
-        
-        path.addArc(withCenter: CGPoint(x: self.bounds.midX,
-                                        y: self.bounds.midY),
-                    radius: centrRadius,
-                    startAngle: 2 * .pi,
-                    endAngle: 0,
-                    clockwise: false)
-        
-        path.close()
-    }
-    
-    func drawLine(startX: Int, toEndingX endX: Int, startingY startY: Int, toEndingY endY: Int, ofColor lineColor: UIColor, widthOfLine lineWidth: CGFloat, inView view: UIView) {
-        
-        let path = UIBezierPath()
-        path.move(to: CGPoint(x: startX, y: startY))
-        path.addLine(to: CGPoint(x: endX, y: endY))
-        
-        let shapeLayer = CAShapeLayer()
-        shapeLayer.path = path.cgPath
-        shapeLayer.strokeColor = lineColor.cgColor
-        shapeLayer.lineWidth = lineWidth
-        
-        view.layer.addSublayer(shapeLayer)
-        
-    }
-    
-    
-}
-class FootballFieldViewController: UIViewController {
+fileprivate enum TeamSide: Int {
+    case top
+    case bottom
 
-    
+    var color: UIColor {
+        switch self {
+        case .top:
+            return .white
+        case .bottom:
+            return .black
+        }
+    }
+
+    var indicator: CGFloat {
+        switch self {
+        case .top:
+            return 1
+        case .bottom:
+            return -1
+        }
+    }
+}
+
+protocol PlayerDragDelegate {
+    func startDragPlayerView(_ view: PlayerView)
+    func endDragPlayerView()
+}
+
+class FootballFieldViewController: UIViewController, UITextFieldDelegate, SchemePickerDelegate, PlayerDragDelegate {
+
+
     // MARK: - Outlets:
-    
-    @IBOutlet weak var footballFieldView: FootballFieldView!
-    
-    
+
+    @IBOutlet private weak var footballFieldView: FootballFieldView!
+
+    @IBOutlet private weak var firstTeamSchemeButton : UIButton!
+    @IBOutlet private weak var secondTeamSchemeButton: UIButton!
+
+    @IBOutlet private weak var firstTeamLabel: UILabel!
+    @IBOutlet private weak var secondTeamLabel: UILabel!
+
+    @IBOutlet private weak var firstTeamClearButton : UIButton!
+    @IBOutlet private weak var secondTeamClearButton: UIButton!
+
+
     // MARK: - Properties:
-    
-    // MARK: Variables:
-    
-    private var stripeHeight: CGFloat {
-        return footballFieldView.bounds.height / CGFloat(FootballFieldViewControllerSettings.kStripeCount)
+
+    private let maxPlayersInARow: CGFloat = 5
+
+    private let topDefaultTeam = TeamEntity(by: TeamSchemeType.allCases[Int.random(in: TeamSchemeType.allCases.indices)])
+    private let bottomDefaultTeam = TeamEntity(by: TeamSchemeType.allCases[Int.random(in: TeamSchemeType.allCases.indices)])
+
+    private(set) var teamAtTheTop    : [PlayerView]!
+    private(set) var teamAtTheBottom : [PlayerView]!
+
+    private var editingTeameSide: TeamSide!
+
+    private var footballFieldManager = FootballFieldManager()
+
+    private var playerViewWidth : CGFloat!
+    private var playerViewHeight: CGFloat!
+
+    private var controlsFontSize: CGFloat!
+
+
+    // MARK: - Actions:
+
+    @IBAction func schemeButtonTouched(_ sender: UIButton) {
+
+        let storyboard = UIStoryboard(name: "SchemePopupViewController", bundle: nil)
+        let popupViewController = storyboard.instantiateViewController(withIdentifier: "SchemePopupViewController") as! SchemePopupViewController
+
+        popupViewController.delegate = self
+
+        if sender == firstTeamSchemeButton {
+            editingTeameSide = .top
+            popupViewController.configure(with: TeamSchemeType.allCases, selected: topDefaultTeam.scheme)
+        } else {
+            popupViewController.configure(with: TeamSchemeType.allCases, selected: bottomDefaultTeam.scheme)
+            editingTeameSide = .bottom
+        }
+
+        self.addChild(popupViewController)
+        popupViewController.view.frame = self.view.frame
+        self.view.addSubview(popupViewController.view)
+        popupViewController.didMove(toParent: self)
     }
-    
-    
+
+    @IBAction func clearSchemeButtonTouched(_ sender: UIButton) {
+        if sender == firstTeamClearButton {
+            changeSchemeAccordingTo(.blank, atThe: .top)
+        } else {
+            changeSchemeAccordingTo(.blank, atThe: .bottom)
+        }
+    }
+
     // MARK: - Lifecycle of FootballFieldViewController:
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        addFootbalFieldPattern()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        footballFieldView.footballFieldManager = footballFieldManager
+
+
+        controlsFontSize = view.frame.height * 0.03
+        firstTeamClearButton.titleLabel?.font = UIFont.systemFont(ofSize: controlsFontSize)
+        secondTeamClearButton.titleLabel?.font = UIFont.systemFont(ofSize: controlsFontSize)
+        changeTeamSchemeControlsAtributedText(on: .top   , using: topDefaultTeam)
+        changeTeamSchemeControlsAtributedText(on: .bottom, using: bottomDefaultTeam)
+
+
     }
-    
-    
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        playerViewWidth  = footballFieldView.frame.width / maxPlayersInARow
+        playerViewHeight = 0.5 * footballFieldView.frame.height / maxPlayersInARow
+
+        teamAtTheTop = getFootballTeamCircleViewsWith(model: topDefaultTeam, atThe: .top)
+
+        teamAtTheBottom = getFootballTeamCircleViewsWith(model: bottomDefaultTeam, atThe: .bottom)
+
+        teamAtTheTop.forEach() { footballFieldView.addSubview($0)}
+        teamAtTheBottom.forEach() { footballFieldView.addSubview($0)}
+    }
+
+
     // MARK: - Functions:
-    
-    private func addFootbalFieldPattern() {
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = footballFieldView.bounds
-        setupColors(for: gradientLayer)
-        setupLocations(for: gradientLayer)
-        footballFieldView.layer.addSublayer(gradientLayer)
-    }
-    
-    private func setupLocations(for gradientLayer: CAGradientLayer) {
-        let stripeCount = FootballFieldViewControllerSettings.kStripeCount
-        let stripeGradientLayerLocationLength = 1 / Double(stripeCount)
-        
-        var locations = [NSNumber]()
-        
-        for _ in 0 ..< stripeCount {
-            locations.append(locations.last ?? 0)
-            let locationEnd = Double(truncating: locations.last!) + stripeGradientLayerLocationLength
-            locations.append(NSNumber(value: locationEnd))
+
+    private func changeTeamSchemeControlsAtributedText(on side: TeamSide, using model: TeamEntity) {
+
+        let titleFont = UIFont.systemFont(ofSize: controlsFontSize,  weight: .thin)
+
+        let buttonTitleAtributedString = NSAttributedString(string: model.scheme.buttonTitle, attributes: [.font : titleFont])
+        let teamNameTitleAtributedString = NSAttributedString(string: model.name, attributes: [.font : titleFont])
+
+        switch side {
+        case .top:
+            firstTeamSchemeButton.setAttributedTitle(buttonTitleAtributedString, for: .normal)
+            firstTeamLabel.attributedText = teamNameTitleAtributedString
+        case .bottom:
+            secondTeamSchemeButton.setAttributedTitle(buttonTitleAtributedString, for: .normal)
+            secondTeamLabel.attributedText = teamNameTitleAtributedString
         }
-        
-        gradientLayer.locations = locations
     }
-    
-    private func setupColors(for gradientLayer: CAGradientLayer) {
-        let stripeCount = FootballFieldViewControllerSettings.kStripeCount
-        
-        var colors = [CGColor]()
-        
-        for index in 0 ..< stripeCount {
-            let currentAlpha: CGFloat = (index%2 == 0) ? 0.9 : 1
-            let stripeColor = FootballFieldViewControllerSettings.kFieldColor.withAlphaComponent(currentAlpha).cgColor
-            colors.append(stripeColor)
-            colors.append(stripeColor)
+
+    private func getFootballTeamCircleViewsWith(model: TeamEntity, atThe side: TeamSide) -> [PlayerView] {
+
+        var footballTeam: [PlayerView] = []
+
+        let verticalPadding = getPaddingForElements(length: playerViewHeight, amount: model.teamMatrix.count, in: footballFieldManager.rect.height / 2)
+
+        for (lineIndex, playersInLine) in model.teamMatrix.enumerated() {
+
+            let horizontalPadding = getPaddingForElements(length: playerViewWidth, amount: playersInLine.count, in: footballFieldManager.rect.width)
+
+            for (indexOfPlayer, player) in playersInLine.enumerated() {
+
+                let playerViewOrigin = getStratPointFor(lineIndex, indexOfPlayer, side, padding: (h: horizontalPadding, v: verticalPadding))
+                let playerCircle = PlayerView(frame: CGRect(origin: playerViewOrigin, size: CGSize(width: playerViewWidth, height: playerViewHeight)))
+
+                playerCircle.delegate = self
+                playerCircle.configureWith(player, teamColor: side.color)
+
+                footballTeam.append(playerCircle)
+            }
         }
-        
-        gradientLayer.colors = colors
+
+        return footballTeam
     }
-    
-    private func getStripeHeight() -> CGFloat {
-        return footballFieldView.bounds.height / CGFloat(FootballFieldViewControllerSettings.kStripeCount)
+
+    private func getStratPointFor(_ lineIndex: Int, _ playerIndex: Int, _ side: TeamSide, padding: (h: CGFloat, v: CGFloat)) -> CGPoint {
+        return CGPoint(x: getCoordinate(for: playerIndex, side,
+                                        with: padding.h, min: footballFieldManager.rect.minX, max: footballFieldManager.rect.width, size: playerViewWidth),
+                       y: getCoordinate(for: lineIndex  , side,
+                                        with: padding.v, min: footballFieldManager.rect.minY, max: footballFieldManager.rect.height, size: playerViewHeight))
     }
-    
-    
-    
+
+    private func getCoordinate(for index: Int, _ side: TeamSide, with padding: CGFloat, min: CGFloat, max: CGFloat, size: CGFloat) -> CGFloat {
+        let fieldMin = side == .bottom ? max - size : min
+        return fieldMin + side.indicator * (size * CGFloat(index) + padding * CGFloat(index + 1))
+    }
+
+    private func getPaddingForElements(length: CGFloat,  amount: Int, in lineLength: CGFloat) -> CGFloat {
+        let lengthOfAllCirclesVertical = length * CGFloat(amount)
+        let amountOfVerticalPaddings = CGFloat(amount + 1)
+
+        return (lineLength - lengthOfAllCirclesVertical) / amountOfVerticalPaddings
+    }
+
+    private func changeSchemeAccordingTo(_ scheme: TeamSchemeType, atThe side: TeamSide) {
+
+        var team: TeamEntity
+
+        switch side {
+        case .top:
+            team = topDefaultTeam
+            team.scheme = scheme
+            teamAtTheTop.forEach() { $0.removeFromSuperview()}
+            teamAtTheTop = getFootballTeamCircleViewsWith(model: team, atThe: side)
+            teamAtTheTop.forEach() { self.footballFieldView.addSubview($0)}
+
+        case .bottom:
+            team = bottomDefaultTeam
+            team.scheme = scheme
+            teamAtTheBottom.forEach() { $0.removeFromSuperview()}
+            teamAtTheBottom = getFootballTeamCircleViewsWith(model: team, atThe: side)
+            teamAtTheBottom.forEach() { self.footballFieldView.addSubview($0)}
+        }
+
+        changeTeamSchemeControlsAtributedText(on: side, using: team)
+    }
+
+
+    // MARK: - SchemePickerDelegate:
+
+    func pickerView(_ pickerView: UIPickerView, picked scheme: TeamSchemeType) {
+        changeSchemeAccordingTo(scheme, atThe: editingTeameSide)
+    }
+
+    // MARK: - PlayerDragDelegate:
+
+    func startDragPlayerView(_ view: PlayerView) {
+        footballFieldView.bringSubviewToFront(view)
+
+        teamAtTheTop.forEach {
+            if $0 != view {
+                $0.alpha = 0.5
+            }
+        }
+        teamAtTheBottom.forEach {
+            if $0 != view {
+                $0.alpha = 0.5
+            }
+        }
+    }
+
+    func endDragPlayerView() {
+        teamAtTheTop.forEach { $0.alpha = 1.0 }
+        teamAtTheBottom.forEach { $0.alpha = 1.0 }
+    }
 }
